@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import sql from '@/lib/db';
 import { verifyPassword, generateToken } from '@/lib/auth';
+import { initDatabase } from '@/lib/init-db';
 import { cookies } from 'next/headers';
 
 export async function POST(request: NextRequest) {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json({ error: 'Server configuration error: database not configured' }, { status: 500 });
+  }
+
   try {
     const { email, password } = await request.json();
 
@@ -11,9 +16,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
-    const users = await sql`
-      SELECT id, email, password_hash, name FROM admin_users WHERE email = ${email}
-    `;
+    let users;
+    try {
+      users = await sql`
+        SELECT id, email, password_hash, name FROM admin_users WHERE email = ${email}
+      `;
+    } catch (dbError: unknown) {
+      const msg = String(dbError);
+      if (msg.includes('does not exist') || msg.includes('relation')) {
+        await initDatabase();
+        users = await sql`
+          SELECT id, email, password_hash, name FROM admin_users WHERE email = ${email}
+        `;
+      } else {
+        throw dbError;
+      }
+    }
 
     if (users.length === 0) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
@@ -33,7 +51,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * 24,
       path: '/',
     });
 
@@ -42,7 +60,7 @@ export async function POST(request: NextRequest) {
       user: { id: user.id, email: user.email, name: user.name },
     });
   } catch (error) {
-    console.error(error);
+    console.error('Login error:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

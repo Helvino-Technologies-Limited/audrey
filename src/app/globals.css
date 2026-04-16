@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ─── Source scanning ─── */
-@source "../../**/*.{ts,tsx,js,jsx}";
+@source "../**/*.{ts,tsx,js,jsx}";
 
 /* ─── Theme tokens ─── */
 @theme {
