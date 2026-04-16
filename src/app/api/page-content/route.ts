@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
       SELECT * FROM page_content WHERE page = ${page}
     `;
     const result: Record<string, Record<string, string>> = {};
-    content.forEach((c: { section: string; key: string; value: string }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (content as any[]).forEach((c) => {
       if (!result[c.section]) result[c.section] = {};
       result[c.section][c.key] = c.value;
     });

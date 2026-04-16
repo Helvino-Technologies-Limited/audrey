@@ -13,12 +13,19 @@ export async function GET() {
     sql`SELECT COUNT(*) as count FROM reviews WHERE is_approved = false`,
   ]);
 
-  const totalBookings = bookings.reduce((sum: number, b: { count: string }) => sum + Number(b.count), 0);
-  const totalOrders = orders.reduce((sum: number, o: { count: string }) => sum + Number(o.count), 0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const totalBookings = (bookings as any[]).reduce((sum: number, b) => sum + Number(b.count), 0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const totalOrders = (orders as any[]).reduce((sum: number, o) => sum + Number(o.count), 0);
 
   return NextResponse.json({
     bookings: { total: totalBookings, byStatus: bookings },
     orders: { total: totalOrders, byStatus: orders },
-    reviews: { approved: Number(reviews[0]?.count || 0), pending: Number(pendingReviews[0]?.count || 0) },
+    reviews: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      approved: Number((reviews as any[])[0]?.count || 0),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pending: Number((pendingReviews as any[])[0]?.count || 0),
+    },
   });
 }

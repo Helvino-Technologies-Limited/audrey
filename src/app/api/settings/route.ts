@@ -5,7 +5,8 @@ import { getAdminUser } from '@/lib/auth';
 export async function GET() {
   const settings = await sql`SELECT key, value FROM site_settings`;
   const result: Record<string, string | null> = {};
-  settings.forEach((s: { key: string; value: string | null }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (settings as any[]).forEach((s) => {
     result[s.key] = s.value;
   });
   return NextResponse.json(result);

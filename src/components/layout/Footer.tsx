@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Globe } from 'lucide-react';
 
 export default function Footer() {
   const [settings, setSettings] = useState<Record<string, string>>({});
@@ -40,20 +40,20 @@ export default function Footer() {
             <div className="flex gap-3">
               {settings.facebook_url && (
                 <a href={settings.facebook_url} target="_blank" rel="noreferrer"
-                  className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all">
-                  <Facebook size={16} />
+                  className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all text-xs font-bold">
+                  f
                 </a>
               )}
               {settings.instagram_url && (
                 <a href={settings.instagram_url} target="_blank" rel="noreferrer"
                   className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all">
-                  <Instagram size={16} />
+                  <Globe size={16} />
                 </a>
               )}
               {settings.twitter_url && (
                 <a href={settings.twitter_url} target="_blank" rel="noreferrer"
-                  className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all">
-                  <Twitter size={16} />
+                  className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all text-xs font-bold">
+                  X
                 </a>
               )}
             </div>
