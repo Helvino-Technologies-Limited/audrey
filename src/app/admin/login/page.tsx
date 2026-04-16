@@ -44,9 +44,9 @@ export default function AdminLoginPage() {
         {/* Logo */}
         <div className="text-center mb-10">
           <div className="w-20 h-20 rounded-full border-2 border-[#C9A84C] flex items-center justify-center mx-auto mb-5">
-            <span className="text-[#C9A84C] font-bold text-3xl font-[var(--font-playfair)]">A</span>
+            <span className="text-[#C9A84C] font-bold text-3xl font-display">A</span>
           </div>
-          <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-2">Admin Portal</h1>
+          <h1 className="font-display text-3xl font-bold text-white mb-2">Admin Portal</h1>
           <p className="text-white/40 text-sm">The Audrey Golf Resort</p>
         </div>
 

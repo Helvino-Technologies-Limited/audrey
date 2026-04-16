@@ -112,7 +112,7 @@ export default function EventsAdminPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Events</h1>
+          <h1 className="font-display text-3xl font-bold text-white mb-1">Events</h1>
           <p className="text-white/40 text-sm">Manage events and activities</p>
         </div>
         <button onClick={() => setShowAdd(true)} className="btn-gold px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2">

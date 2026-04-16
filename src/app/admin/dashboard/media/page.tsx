@@ -69,7 +69,7 @@ export default function MediaPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Media Library</h1>
+        <h1 className="font-display text-3xl font-bold text-white mb-1">Media Library</h1>
         <p className="text-white/40 text-sm">Upload and manage photos, videos and files</p>
       </div>
 

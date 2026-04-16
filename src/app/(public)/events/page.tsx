@@ -68,7 +68,7 @@ export default function EventsPage() {
       <div className="pt-32 pb-16 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Experiences</p>
-          <h1 className="font-[var(--font-playfair)] text-5xl md:text-6xl font-bold text-white mb-5">Events</h1>
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">Events</h1>
           <div className="divider-gold mx-auto mb-5" />
           <p className="text-white/60 text-lg">From live music to golf tournaments — there's always something happening at The Audrey</p>
         </div>
@@ -94,7 +94,7 @@ export default function EventsPage() {
                   </div>
                 )}
                 <div className="p-6">
-                  <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors">
+                  <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors">
                     {event.title}
                   </h3>
                   <p className="text-white/60 text-sm leading-relaxed mb-4 line-clamp-3">{event.description}</p>
@@ -126,7 +126,7 @@ export default function EventsPage() {
 
         {/* CTA for private events */}
         <div className="mt-20 glass-card rounded-3xl p-12 text-center border border-[#C9A84C]/20">
-          <h2 className="font-[var(--font-playfair)] text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
             Planning a Private Event?
           </h2>
           <p className="text-white/60 text-base mb-8 max-w-xl mx-auto">

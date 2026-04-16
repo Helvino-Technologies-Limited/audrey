@@ -55,7 +55,7 @@ export default function BookingForm({ serviceId, serviceName, priceInfo }: Booki
         <div className="w-16 h-16 rounded-full bg-[#C9A84C]/20 flex items-center justify-center mx-auto mb-5">
           <CheckCircle2 size={32} className="text-[#C9A84C]" />
         </div>
-        <h3 className="font-[var(--font-playfair)] text-2xl font-bold text-white mb-3">
+        <h3 className="font-display text-2xl font-bold text-white mb-3">
           Booking Confirmed!
         </h3>
         <p className="text-white/60 mb-4">
@@ -73,7 +73,7 @@ export default function BookingForm({ serviceId, serviceName, priceInfo }: Booki
 
   return (
     <div className="glass-card rounded-2xl p-8">
-      <h3 className="font-[var(--font-playfair)] text-2xl font-bold text-white mb-2">Book {serviceName}</h3>
+      <h3 className="font-display text-2xl font-bold text-white mb-2">Book {serviceName}</h3>
       <p className="text-[#C9A84C] text-sm mb-6">{priceInfo}</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

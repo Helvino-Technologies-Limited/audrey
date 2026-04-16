@@ -63,7 +63,7 @@ export default function ServicesCarousel() {
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">What We Offer</p>
-          <h2 className="font-[var(--font-playfair)] text-4xl md:text-5xl font-bold text-white mb-5">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-5">
             Our Signature Services
           </h2>
           <div className="divider-gold mx-auto mb-5" />
@@ -108,7 +108,7 @@ export default function ServicesCarousel() {
 
                       {/* Content */}
                       <div className="flex-1 p-6 flex flex-col">
-                        <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors">
+                        <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors">
                           {service.title}
                         </h3>
                         <p className="text-white/60 text-sm leading-relaxed flex-1 line-clamp-3">

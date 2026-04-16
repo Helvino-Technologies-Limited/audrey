@@ -120,7 +120,7 @@ export default function MenuPage() {
       <div className="pt-32 pb-16 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Culinary Excellence</p>
-          <h1 className="font-[var(--font-playfair)] text-5xl md:text-6xl font-bold text-white mb-5">
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">
             Restaurant & Menu
           </h1>
           <div className="divider-gold mx-auto mb-5" />
@@ -213,7 +213,7 @@ export default function MenuPage() {
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
           <div className="bg-[#1A1A1A] border border-[#C9A84C]/20 rounded-2xl w-full max-w-md max-h-[80vh] overflow-y-auto">
             <div className="sticky top-0 bg-[#1A1A1A] p-6 border-b border-white/10 flex items-center justify-between">
-              <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white">Your Order</h3>
+              <h3 className="font-display text-xl font-bold text-white">Your Order</h3>
               <button onClick={() => setShowCart(false)} className="text-white/40 hover:text-white">
                 <X size={20} />
               </button>
@@ -324,7 +324,7 @@ export default function MenuPage() {
             {orderSubmitted && (
               <div className="p-8 text-center">
                 <CheckCircle2 size={48} className="text-[#C9A84C] mx-auto mb-4" />
-                <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white mb-3">Order Placed!</h3>
+                <h3 className="font-display text-xl font-bold text-white mb-3">Order Placed!</h3>
                 <p className="text-white/60 text-sm mb-4">Your reference number:</p>
                 <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl py-3 px-6 inline-block mb-4">
                   <span className="text-[#C9A84C] font-bold text-lg tracking-widest">{orderRef}</span>

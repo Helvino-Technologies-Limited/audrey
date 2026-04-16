@@ -34,7 +34,7 @@ export default function CTASection() {
       <div className="relative max-w-4xl mx-auto px-4 text-center">
         <div className="border border-[#C9A84C]/20 rounded-3xl p-12 md:p-16 glass-card">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Book Now</p>
-          <h2 className="font-[var(--font-playfair)] text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
             {content.title}
           </h2>
           <div className="divider-gold mx-auto mb-5" />

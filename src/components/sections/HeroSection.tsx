@@ -71,7 +71,7 @@ export default function HeroSection() {
           Siaya County, Kenya
         </p>
 
-        <h1 className="font-[var(--font-playfair)] text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight fade-in-up"
+        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight fade-in-up"
           style={{ animationDelay: '0.2s' }}>
           {content.title}
         </h1>

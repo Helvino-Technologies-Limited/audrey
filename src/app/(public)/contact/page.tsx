@@ -62,7 +62,7 @@ export default function ContactPage() {
       <div className="pt-32 pb-16 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Reach Out</p>
-          <h1 className="font-[var(--font-playfair)] text-5xl md:text-6xl font-bold text-white mb-5">Contact Us</h1>
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">Contact Us</h1>
           <div className="divider-gold mx-auto mb-5" />
           <p className="text-white/60 text-lg">We'd love to hear from you. Reach out for reservations, enquiries or just to say hello.</p>
         </div>
@@ -73,7 +73,7 @@ export default function ContactPage() {
           {/* Contact Info */}
           <div className="space-y-6">
             <div className="glass-card rounded-2xl p-7">
-              <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white mb-6">Get In Touch</h3>
+              <h3 className="font-display text-xl font-bold text-white mb-6">Get In Touch</h3>
 
               <div className="space-y-5">
                 <div className="flex gap-4">
@@ -151,7 +151,7 @@ export default function ContactPage() {
           <div className="lg:col-span-2">
             {!showReviewForm ? (
               <div className="glass-card rounded-2xl p-8">
-                <h3 className="font-[var(--font-playfair)] text-2xl font-bold text-white mb-6">Send a Message</h3>
+                <h3 className="font-display text-2xl font-bold text-white mb-6">Send a Message</h3>
                 <form onSubmit={handleSubmit(onSubmitContact)} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
@@ -193,7 +193,7 @@ export default function ContactPage() {
             ) : reviewSubmitted ? (
               <div className="glass-card rounded-2xl p-12 text-center">
                 <Star size={48} className="text-[#C9A84C] mx-auto mb-4" />
-                <h3 className="font-[var(--font-playfair)] text-2xl font-bold text-white mb-3">Thank You!</h3>
+                <h3 className="font-display text-2xl font-bold text-white mb-3">Thank You!</h3>
                 <p className="text-white/60">Your review has been submitted and is pending approval. We appreciate your feedback!</p>
                 <button onClick={() => { setShowReviewForm(false); setReviewSubmitted(false); }} className="mt-6 text-[#C9A84C] text-sm hover:underline">
                   Send a message instead
@@ -202,7 +202,7 @@ export default function ContactPage() {
             ) : (
               <div className="glass-card rounded-2xl p-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-[var(--font-playfair)] text-2xl font-bold text-white">Leave a Review</h3>
+                  <h3 className="font-display text-2xl font-bold text-white">Leave a Review</h3>
                   <button onClick={() => setShowReviewForm(false)} className="text-white/40 hover:text-white text-sm">← Back to contact</button>
                 </div>
                 <form onSubmit={handleReview(onSubmitReview)} className="space-y-5">

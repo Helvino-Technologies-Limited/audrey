@@ -42,7 +42,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Dashboard</h1>
+        <h1 className="font-display text-3xl font-bold text-white mb-1">Dashboard</h1>
         <p className="text-white/40 text-sm">Welcome back — here's what's happening at The Audrey</p>
       </div>
 

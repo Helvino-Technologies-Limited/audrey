@@ -30,7 +30,7 @@ export default function ReviewsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Testimonials</p>
-          <h2 className="font-[var(--font-playfair)] text-4xl md:text-5xl font-bold text-white mb-5">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-5">
             What Our Guests Say
           </h2>
           <div className="divider-gold mx-auto" />

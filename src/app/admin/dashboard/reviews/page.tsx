@@ -69,7 +69,7 @@ export default function ReviewsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Reviews</h1>
+        <h1 className="font-display text-3xl font-bold text-white mb-1">Reviews</h1>
         <p className="text-white/40 text-sm">Approve or reject guest reviews before they appear publicly</p>
       </div>
 

@@ -41,7 +41,7 @@ export default function AboutSection() {
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-[#C9A84C]/20 to-[#0D0D0D] border border-[#C9A84C]/20">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-[#C9A84C] text-8xl font-[var(--font-playfair)] font-bold opacity-20">A</div>
+                  <div className="text-[#C9A84C] text-8xl font-display font-bold opacity-20">A</div>
                   <div className="text-white/30 text-sm tracking-widest uppercase">The Audrey Golf Resort</div>
                 </div>
               </div>
@@ -64,7 +64,7 @@ export default function AboutSection() {
           {/* Right: content */}
           <div>
             <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">About Us</p>
-            <h2 className="font-[var(--font-playfair)] text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
               {content.title}
             </h2>
             <div className="divider-gold mb-6" />

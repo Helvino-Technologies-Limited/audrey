@@ -110,7 +110,7 @@ export default function MenuAdminPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Menu</h1>
+          <h1 className="font-display text-3xl font-bold text-white mb-1">Menu</h1>
           <p className="text-white/40 text-sm">Manage categories and menu items</p>
         </div>
         <button onClick={() => setShowAddCat(true)} className="btn-gold px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2">

@@ -83,7 +83,7 @@ export default function ServicesAdminPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Services</h1>
+        <h1 className="font-display text-3xl font-bold text-white mb-1">Services</h1>
         <p className="text-white/40 text-sm">Manage and edit hotel services content</p>
       </div>
 
@@ -122,7 +122,7 @@ export default function ServicesAdminPage() {
           <div className="bg-[#1A1A1A] border border-[#C9A84C]/20 rounded-2xl w-full max-w-2xl my-4">
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white">Edit: {editingService.title}</h3>
+                <h3 className="font-display text-xl font-bold text-white">Edit: {editingService.title}</h3>
                 <button onClick={closeEdit} className="text-white/40 hover:text-white"><X size={20} /></button>
               </div>
 

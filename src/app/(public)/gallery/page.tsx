@@ -34,7 +34,7 @@ export default function GalleryPage() {
       <div className="pt-32 pb-16 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Visual Journey</p>
-          <h1 className="font-[var(--font-playfair)] text-5xl md:text-6xl font-bold text-white mb-5">Gallery</h1>
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">Gallery</h1>
           <div className="divider-gold mx-auto mb-5" />
           <p className="text-white/60 text-lg">A glimpse into the beauty and elegance of The Audrey Golf Resort</p>
         </div>

@@ -99,7 +99,7 @@ export default function ServiceDetailPage() {
             </div>
             <span className="text-[#C9A84C] text-sm tracking-widest uppercase">{service.price_info}</span>
           </div>
-          <h1 className="font-[var(--font-playfair)] text-4xl md:text-5xl font-bold text-white">
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-white">
             {service.title}
           </h1>
         </div>
@@ -112,7 +112,7 @@ export default function ServiceDetailPage() {
           <div className="lg:col-span-2 space-y-10">
             {/* Description */}
             <div>
-              <h2 className="font-[var(--font-playfair)] text-2xl font-bold text-white mb-5">About This Service</h2>
+              <h2 className="font-display text-2xl font-bold text-white mb-5">About This Service</h2>
               <div className="divider-gold mb-5" />
               <p className="text-white/65 text-base leading-relaxed">{service.full_description}</p>
             </div>
@@ -120,7 +120,7 @@ export default function ServiceDetailPage() {
             {/* Features */}
             {service.features && service.features.length > 0 && (
               <div>
-                <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white mb-5">What's Included</h3>
+                <h3 className="font-display text-xl font-bold text-white mb-5">What's Included</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {service.features.map((feature, i) => (
                     <div key={i} className="flex items-start gap-3 glass-card rounded-xl p-4">
@@ -135,7 +135,7 @@ export default function ServiceDetailPage() {
             {/* Gallery */}
             {service.gallery_images && service.gallery_images.length > 0 && (
               <div>
-                <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white mb-5">Gallery</h3>
+                <h3 className="font-display text-xl font-bold text-white mb-5">Gallery</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {service.gallery_images.map((img, i) => (
                     <div key={i} className="relative aspect-square rounded-xl overflow-hidden">

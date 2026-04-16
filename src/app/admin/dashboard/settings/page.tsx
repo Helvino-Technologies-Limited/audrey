@@ -84,7 +84,7 @@ export default function SettingsPage() {
   return (
     <div className="max-w-3xl">
       <div className="mb-8">
-        <h1 className="font-[var(--font-playfair)] text-3xl font-bold text-white mb-1">Settings</h1>
+        <h1 className="font-display text-3xl font-bold text-white mb-1">Settings</h1>
         <p className="text-white/40 text-sm">Manage site content, contact info, and account settings</p>
       </div>
 

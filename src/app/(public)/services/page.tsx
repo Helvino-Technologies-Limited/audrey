@@ -47,7 +47,7 @@ export default function ServicesPage() {
       <div className="relative pt-32 pb-20 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Explore</p>
-          <h1 className="font-[var(--font-playfair)] text-5xl md:text-6xl font-bold text-white mb-5">
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">
             Our Services
           </h1>
           <div className="divider-gold mx-auto mb-5" />
@@ -93,7 +93,7 @@ export default function ServicesPage() {
                       <div className="w-10 h-10 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 flex items-center justify-center text-[#C9A84C]">
                         <span className="scale-75">{iconMap[service.icon] || <Star size={18} />}</span>
                       </div>
-                      <h3 className="font-[var(--font-playfair)] text-xl font-bold text-white group-hover:text-[#C9A84C] transition-colors">
+                      <h3 className="font-display text-xl font-bold text-white group-hover:text-[#C9A84C] transition-colors">
                         {service.title}
                       </h3>
                     </div>
