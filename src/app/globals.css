@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ─── Source scanning ─── */
+@source "../../**/*.{ts,tsx,js,jsx}";
+
 /* ─── Theme tokens ─── */
 @theme {
   --color-gold:        #C9A84C;
