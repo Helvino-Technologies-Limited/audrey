@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Globe } from 'lucide-react';
 
@@ -24,9 +25,19 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center">
-                <span className="text-[#C9A84C] font-bold text-lg">A</span>
-              </div>
+              {settings.logo_url ? (
+                <Image
+                  src={settings.logo_url}
+                  alt={settings.site_name || 'The Audrey Golf Resort'}
+                  width={48}
+                  height={48}
+                  className="rounded-full object-cover border-2 border-[#C9A84C]"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center">
+                  <span className="text-[#C9A84C] font-bold text-lg">A</span>
+                </div>
+              )}
               <div>
                 <p className="text-[#C9A84C] font-bold text-base leading-tight">
                   {settings.site_name || 'The Audrey Golf Resort'}
@@ -54,6 +65,15 @@ export default function Footer() {
                 <a href={settings.twitter_url} target="_blank" rel="noreferrer"
                   className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all text-xs font-bold">
                   X
+                </a>
+              )}
+              {settings.tiktok_url && (
+                <a href={settings.tiktok_url} target="_blank" rel="noreferrer"
+                  className="w-9 h-9 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all"
+                  title="TikTok">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.53V6.75a4.85 4.85 0 0 1-1.02-.06z"/>
+                  </svg>
                 </a>
               )}
             </div>

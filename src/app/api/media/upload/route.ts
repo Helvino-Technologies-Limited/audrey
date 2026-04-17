@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
       RETURNING id, filename, url, type, category, alt_text, created_at
     `;
 
-    return NextResponse.json({ success: true, media: media[0], url: dataUrl });
+    const streamUrl = `/api/media/${media[0].id}`;
+    return NextResponse.json({ success: true, media: media[0], url: dataUrl, streamUrl });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });

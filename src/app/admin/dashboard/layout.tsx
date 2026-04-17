@@ -19,18 +19,32 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
-        <div className="text-[#C9A84C] animate-pulse">Loading...</div>
+      <div style={{ minHeight: '100vh', background: '#0D0D0D', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#C9A84C', fontSize: '0.875rem' }}>Loading…</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] flex">
+    <div style={{ minHeight: '100vh', background: '#0D0D0D', display: 'flex' }}>
       <AdminSidebar />
-      <main className="flex-1 overflow-auto p-6 md:p-8">
-        {children}
+      {/* Main content — on mobile: top padding for header + bottom for tab bar */}
+      <main style={{ flex: 1, overflowX: 'hidden', overflowY: 'auto' }}>
+        <div className="admin-content-inner">
+          {children}
+        </div>
       </main>
+      <style>{`
+        .admin-content-inner {
+          padding: 2rem 1.5rem 2rem;
+          max-width: 1100px;
+        }
+        @media (max-width: 767px) {
+          .admin-content-inner {
+            padding: 4.5rem 1rem 6rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }

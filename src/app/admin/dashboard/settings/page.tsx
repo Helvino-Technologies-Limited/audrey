@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Save, Lock, Globe, Phone, Video, Image as ImageIcon } from 'lucide-react';
+import { Save, Lock, Globe, Phone, Video, Image as ImageIcon, Palette } from 'lucide-react';
 import FileUpload from '@/components/admin/FileUpload';
 
 interface SiteSettings {
@@ -19,6 +19,9 @@ interface SiteSettings {
   facebook_url: string;
   instagram_url: string;
   twitter_url: string;
+  tiktok_url: string;
+  primary_color: string;
+  bg_color: string;
 }
 
 interface PasswordForm {
@@ -169,6 +172,52 @@ export default function SettingsPage() {
           </div>
         </div>
 
+        {/* Theme Colors */}
+        <div className="glass-card rounded-2xl p-8">
+          <h3 className="flex items-center gap-2 text-white font-semibold mb-2">
+            <Palette size={18} className="text-[#C9A84C]" /> Theme Colors
+          </h3>
+          <p className="text-white/40 text-xs mb-6">Changes the accent color and background across the whole website.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className="text-white/60 text-xs mb-3 block">Accent / Primary Color</label>
+              <div className="flex items-center gap-3">
+                <input
+                  {...regSettings('primary_color')}
+                  type="color"
+                  defaultValue="#C9A84C"
+                  className="w-12 h-12 rounded-lg border border-white/20 cursor-pointer bg-transparent p-1"
+                />
+                <input
+                  {...regSettings('primary_color')}
+                  type="text"
+                  placeholder="#C9A84C"
+                  className="flex-1 bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50"
+                />
+              </div>
+              <p className="text-white/25 text-xs mt-2">Default: #C9A84C (gold)</p>
+            </div>
+            <div>
+              <label className="text-white/60 text-xs mb-3 block">Background Color</label>
+              <div className="flex items-center gap-3">
+                <input
+                  {...regSettings('bg_color')}
+                  type="color"
+                  defaultValue="#0D0D0D"
+                  className="w-12 h-12 rounded-lg border border-white/20 cursor-pointer bg-transparent p-1"
+                />
+                <input
+                  {...regSettings('bg_color')}
+                  type="text"
+                  placeholder="#0D0D0D"
+                  className="flex-1 bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50"
+                />
+              </div>
+              <p className="text-white/25 text-xs mt-2">Default: #0D0D0D (near black)</p>
+            </div>
+          </div>
+        </div>
+
         {/* Social Media */}
         <div className="glass-card rounded-2xl p-8">
           <h3 className="flex items-center gap-2 text-white font-semibold mb-6">
@@ -179,6 +228,7 @@ export default function SettingsPage() {
               { label: 'Facebook URL', field: 'facebook_url' as const, placeholder: 'https://facebook.com/...' },
               { label: 'Instagram URL', field: 'instagram_url' as const, placeholder: 'https://instagram.com/...' },
               { label: 'Twitter / X URL', field: 'twitter_url' as const, placeholder: 'https://twitter.com/...' },
+              { label: 'TikTok URL', field: 'tiktok_url' as const, placeholder: 'https://tiktok.com/@...' },
             ].map(item => (
               <div key={item.field}>
                 <label className="text-white/60 text-xs mb-1.5 block">{item.label}</label>

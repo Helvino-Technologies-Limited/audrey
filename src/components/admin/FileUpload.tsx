@@ -49,8 +49,10 @@ export default function FileUpload({
         return;
       }
 
-      onUpload(data.url);
-      setPreview(data.url);
+      // For videos, use the stream URL so we don't embed 50MB base64 in settings
+      const resolvedUrl = mediaType === 'video' ? data.streamUrl : data.url;
+      onUpload(resolvedUrl);
+      setPreview(resolvedUrl);
     } catch {
       setError('Upload failed');
       setPreview(currentUrl || null);
