@@ -39,7 +39,7 @@ const STATIC_SERVICES: Service[] = [
 ];
 
 const ICON_COLORS = [
-  '#C9A84C', '#4CAF9A', '#5B8CE8', '#C9A84C', '#9C7CE8', '#E87C5B', '#C9A84C',
+  'var(--gold)', '#4CAF9A', '#5B8CE8', 'var(--gold)', '#9C7CE8', '#E87C5B', 'var(--gold)',
 ];
 
 export default function ServicesCarousel() {
@@ -63,13 +63,13 @@ export default function ServicesCarousel() {
   }, []);
 
   return (
-    <section style={{ padding: '5rem 0', background: '#0D0D0D', position: 'relative' }}>
+    <section style={{ padding: '5rem 0', background: 'var(--bg-base)', position: 'relative' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <p className="section-label">What We Offer</p>
-          <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>
+          <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>
             Our Signature Services
           </h2>
           <div className="divider-gold" style={{ margin: '0 auto 1.25rem' }} />
@@ -93,7 +93,7 @@ export default function ServicesCarousel() {
                       transition: 'border-color 0.25s, transform 0.25s',
                       cursor: 'pointer',
                     }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,168,76,0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(var(--gold-rgb),0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
                     >
                       {/* Image area */}
@@ -103,7 +103,7 @@ export default function ServicesCarousel() {
                         ) : (
                           <div style={{
                             width: '100%', height: '100%',
-                            background: `linear-gradient(135deg, rgba(201,168,76,0.12) 0%, #0D0D0D 100%)`,
+                            background: `linear-gradient(135deg, rgba(var(--gold-rgb),0.12) 0%, #0D0D0D 100%)`,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                           }}>
                             <span style={{ color: ICON_COLORS[idx % ICON_COLORS.length], opacity: 0.7, transform: 'scale(1.5)' }}>
@@ -116,9 +116,9 @@ export default function ServicesCarousel() {
                         <div style={{
                           position: 'absolute', top: '0.75rem', right: '0.75rem',
                           width: '36px', height: '36px', borderRadius: '50%',
-                          background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(201,168,76,0.4)',
+                          background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(var(--gold-rgb),0.4)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          color: '#C9A84C',
+                          color: 'var(--gold)',
                         }}>
                           <span style={{ transform: 'scale(0.65)' }}>{iconMap[service.icon] || <Star size={16} />}</span>
                         </div>
@@ -126,15 +126,15 @@ export default function ServicesCarousel() {
 
                       {/* Content */}
                       <div style={{ padding: '1.25rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <h3 className="font-display" style={{ color: '#F0EBE1', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.625rem' }}>
+                        <h3 className="font-display" style={{ color: 'var(--text-primary)', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.625rem' }}>
                           {service.title}
                         </h3>
                         <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '0.875rem', lineHeight: 1.6, flex: 1, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
                           {service.short_description}
                         </p>
                         <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <span style={{ color: '#C9A84C', fontSize: '0.875rem', fontWeight: 600 }}>{service.price_info}</span>
-                          <span style={{ color: '#C9A84C', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: 'var(--gold)', fontSize: '0.875rem', fontWeight: 600 }}>{service.price_info}</span>
+                          <span style={{ color: 'var(--gold)', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
                             Book <ArrowRight size={13} />
                           </span>
                         </div>
@@ -150,8 +150,8 @@ export default function ServicesCarousel() {
           <button onClick={scrollPrev} style={{
             position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
             width: '40px', height: '40px', borderRadius: '50%',
-            background: '#1A1A1A', border: '1px solid rgba(201,168,76,0.35)',
-            color: '#C9A84C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'var(--bg-card-2)', border: '1px solid rgba(var(--gold-rgb),0.35)',
+            color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', transition: 'all 0.2s', zIndex: 10,
           }}>
             <ChevronLeft size={18} />
@@ -159,8 +159,8 @@ export default function ServicesCarousel() {
           <button onClick={scrollNext} style={{
             position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)',
             width: '40px', height: '40px', borderRadius: '50%',
-            background: '#1A1A1A', border: '1px solid rgba(201,168,76,0.35)',
-            color: '#C9A84C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'var(--bg-card-2)', border: '1px solid rgba(var(--gold-rgb),0.35)',
+            color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', transition: 'all 0.2s', zIndex: 10,
           }}>
             <ChevronRight size={18} />

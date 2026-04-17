@@ -73,8 +73,8 @@ export default function HeroSection() {
         );
       })() : (
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #1a0e00 0%, #0D0D0D 50%, #000a05 100%)' }}>
-          <div style={{ position: 'absolute', top: '-80px', left: '-80px', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%)' }} />
-          <div style={{ position: 'absolute', bottom: '-60px', right: '-60px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)' }} />
+          <div style={{ position: 'absolute', top: '-80px', left: '-80px', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(var(--gold-rgb),0.10) 0%, transparent 70%)' }} />
+          <div style={{ position: 'absolute', bottom: '-60px', right: '-60px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(var(--gold-rgb),0.07) 0%, transparent 70%)' }} />
         </div>
       )}
 
@@ -86,11 +86,11 @@ export default function HeroSection() {
         {/* Location badge */}
         <div className="fade-in-up" style={{
           display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-          background: 'rgba(201,168,76,0.10)', border: '1px solid rgba(201,168,76,0.30)',
+          background: 'rgba(var(--gold-rgb),0.10)', border: '1px solid rgba(var(--gold-rgb),0.30)',
           borderRadius: '9999px', padding: '0.4rem 1.25rem', marginBottom: '2rem',
         }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9A84C', display: 'inline-block' }} />
-          <span style={{ color: '#C9A84C', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 500 }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} />
+          <span style={{ color: 'var(--gold)', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 500 }}>
             Siaya County, Kenya
           </span>
         </div>
@@ -100,7 +100,7 @@ export default function HeroSection() {
           style={{
             fontSize: 'clamp(2.4rem, 7vw, 5rem)',
             fontWeight: 700,
-            color: '#F0EBE1',
+            color: 'var(--text-primary)',
             lineHeight: 1.15,
             marginBottom: '1.5rem',
             textShadow: '0 2px 40px rgba(0,0,0,0.6)',
@@ -113,7 +113,7 @@ export default function HeroSection() {
         {/* Gold line divider */}
         <div className="fade-in-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.5rem', animationDelay: '0.3s' }}>
           <div style={{ width: '60px', height: '1px', background: 'linear-gradient(to right, transparent, #C9A84C)' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#C9A84C' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--gold)' }} />
           <div style={{ width: '60px', height: '1px', background: 'linear-gradient(to left, transparent, #C9A84C)' }} />
         </div>
 

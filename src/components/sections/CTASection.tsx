@@ -24,13 +24,13 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section style={{ padding: '5rem 0', background: '#111111', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ padding: '5rem 0', background: 'var(--bg-card)', position: 'relative', overflow: 'hidden' }}>
       {/* Subtle glow */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '200px', background: 'radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '200px', background: 'radial-gradient(ellipse, rgba(var(--gold-rgb),0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
         <div className="card" style={{
-          borderColor: 'rgba(201,168,76,0.22)',
+          borderColor: 'rgba(var(--gold-rgb),0.22)',
           borderRadius: '1.5rem',
           padding: 'clamp(2.5rem, 5vw, 4rem)',
           textAlign: 'center',
@@ -38,7 +38,7 @@ export default function CTASection() {
           margin: '0 auto',
         }}>
           <p className="section-label">Book Now</p>
-          <h2 className="font-display" style={{ fontSize: 'clamp(1.75rem, 5vw, 3rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem', lineHeight: 1.2 }}>
+          <h2 className="font-display" style={{ fontSize: 'clamp(1.75rem, 5vw, 3rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem', lineHeight: 1.2 }}>
             {content.title}
           </h2>
           <div className="divider-gold" style={{ margin: '0 auto 1.25rem' }} />

@@ -53,12 +53,12 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0D0D0D' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
       {/* Page header */}
-      <div style={{ paddingTop: '8rem', paddingBottom: '4rem', background: 'linear-gradient(to bottom, rgba(26,18,0,0.55) 0%, transparent 100%)', textAlign: 'center' }}>
+      <div style={{ paddingTop: '8rem', paddingBottom: '4rem', background: 'linear-gradient(to bottom, rgba(var(--bg-warm-rgb),0.55) 0%, transparent 100%)', textAlign: 'center' }}>
         <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '0 1.5rem' }}>
           <p className="section-label">Explore</p>
-          <h1 className="font-display" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.75rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>Our Services</h1>
+          <h1 className="font-display" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.75rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>Our Services</h1>
           <div className="divider-gold" style={{ margin: '0 auto 1.5rem' }} />
           <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '1.0625rem', lineHeight: 1.7 }}>
             From championship golf to world-class dining and luxury accommodation — everything you need for an unforgettable stay
@@ -80,15 +80,15 @@ export default function ServicesPage() {
                   display: 'flex', flexDirection: 'column', overflow: 'hidden',
                   height: '100%', cursor: 'pointer', transition: 'border-color 0.25s, transform 0.25s',
                 }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,168,76,0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(var(--gold-rgb),0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
                 >
                   {/* Image */}
-                  <div style={{ position: 'relative', height: '200px', background: 'linear-gradient(135deg, rgba(201,168,76,0.12) 0%, #111111 100%)', overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', height: '200px', background: 'linear-gradient(135deg, rgba(var(--gold-rgb),0.12) 0%, #111111 100%)', overflow: 'hidden' }}>
                     {service.image_url ? (
                       <Image src={service.image_url} alt={service.title} fill style={{ objectFit: 'cover' }} />
                     ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(201,168,76,0.40)' }}>
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(var(--gold-rgb),0.40)' }}>
                         {iconMap[service.icon] || <Star size={48} />}
                       </div>
                     )}
@@ -100,13 +100,13 @@ export default function ServicesPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.875rem' }}>
                       <div style={{
                         width: '38px', height: '38px', borderRadius: '50%',
-                        background: 'rgba(201,168,76,0.10)', border: '1px solid rgba(201,168,76,0.20)',
+                        background: 'rgba(var(--gold-rgb),0.10)', border: '1px solid rgba(var(--gold-rgb),0.20)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: '#C9A84C', flexShrink: 0,
+                        color: 'var(--gold)', flexShrink: 0,
                       }}>
                         <span style={{ transform: 'scale(0.65)' }}>{iconMap[service.icon]}</span>
                       </div>
-                      <h3 className="font-display" style={{ color: '#F0EBE1', fontSize: '1.1rem', fontWeight: 700 }}>
+                      <h3 className="font-display" style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: 700 }}>
                         {service.title}
                       </h3>
                     </div>
@@ -116,14 +116,14 @@ export default function ServicesPage() {
 
                     {service.features && service.features.slice(0, 3).map((f, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-                        <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#C9A84C', flexShrink: 0 }} />
+                        <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--gold)', flexShrink: 0 }} />
                         <span style={{ color: 'rgba(240,235,225,0.50)', fontSize: '0.8rem' }}>{f}</span>
                       </div>
                     ))}
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                      <span style={{ color: '#C9A84C', fontSize: '0.875rem', fontWeight: 600 }}>{service.price_info}</span>
-                      <span style={{ color: '#C9A84C', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ color: 'var(--gold)', fontSize: '0.875rem', fontWeight: 600 }}>{service.price_info}</span>
+                      <span style={{ color: 'var(--gold)', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         Book Now <ArrowRight size={13} />
                       </span>
                     </div>

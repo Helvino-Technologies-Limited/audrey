@@ -35,12 +35,12 @@ export default function EventsPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0D0D0D' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
       {/* Header */}
-      <div style={{ paddingTop: '8rem', paddingBottom: '4rem', background: 'linear-gradient(to bottom, rgba(26,18,0,0.55) 0%, transparent 100%)', textAlign: 'center' }}>
+      <div style={{ paddingTop: '8rem', paddingBottom: '4rem', background: 'linear-gradient(to bottom, rgba(var(--bg-warm-rgb),0.55) 0%, transparent 100%)', textAlign: 'center' }}>
         <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '0 1.5rem' }}>
           <p className="section-label">Experiences</p>
-          <h1 className="font-display" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.75rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>Events</h1>
+          <h1 className="font-display" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.75rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>Events</h1>
           <div className="divider-gold" style={{ margin: '0 auto 1.5rem' }} />
           <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '1.0625rem', lineHeight: 1.7 }}>
             From live music to golf tournaments — there's always something happening at The Audrey
@@ -57,7 +57,7 @@ export default function EventsPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
             {events.map(event => (
               <div key={event.id} className="card" style={{ overflow: 'hidden', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(201,168,76,0.35)')}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(var(--gold-rgb),0.35)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
               >
                 {event.image_url ? (
@@ -66,12 +66,12 @@ export default function EventsPage() {
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #161616 0%, transparent 60%)' }} />
                   </div>
                 ) : (
-                  <div style={{ height: '160px', background: 'linear-gradient(135deg, rgba(201,168,76,0.10) 0%, #111111 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Calendar size={48} style={{ color: 'rgba(201,168,76,0.30)' }} />
+                  <div style={{ height: '160px', background: 'linear-gradient(135deg, rgba(var(--gold-rgb),0.10) 0%, #111111 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Calendar size={48} style={{ color: 'rgba(var(--gold-rgb),0.30)' }} />
                   </div>
                 )}
                 <div style={{ padding: '1.5rem' }}>
-                  <h3 className="font-display" style={{ color: '#F0EBE1', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+                  <h3 className="font-display" style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem' }}>
                     {event.title}
                   </h3>
                   <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
@@ -80,19 +80,19 @@ export default function EventsPage() {
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.875rem' }}>
                     {event.event_date && (
                       <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(240,235,225,0.45)', fontSize: '0.8rem' }}>
-                        <Calendar size={12} style={{ color: '#C9A84C' }} />
+                        <Calendar size={12} style={{ color: 'var(--gold)' }} />
                         {new Date(event.event_date).toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </span>
                     )}
                     {event.is_recurring && (
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(201,168,76,0.75)', fontSize: '0.8rem' }}>
-                        <RefreshCcw size={12} style={{ color: '#C9A84C' }} />
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(var(--gold-rgb),0.75)', fontSize: '0.8rem' }}>
+                        <RefreshCcw size={12} style={{ color: 'var(--gold)' }} />
                         {event.recurrence_pattern}
                       </span>
                     )}
                     {event.event_time && (
                       <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(240,235,225,0.45)', fontSize: '0.8rem' }}>
-                        <Clock size={12} style={{ color: '#C9A84C' }} />
+                        <Clock size={12} style={{ color: 'var(--gold)' }} />
                         {event.event_time}
                       </span>
                     )}
@@ -104,8 +104,8 @@ export default function EventsPage() {
         )}
 
         {/* Private events CTA */}
-        <div className="card" style={{ marginTop: '5rem', borderRadius: '1.5rem', borderColor: 'rgba(201,168,76,0.22)', padding: 'clamp(2.5rem, 5vw, 4rem)', textAlign: 'center' }}>
-          <h2 className="font-display" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1rem' }}>
+        <div className="card" style={{ marginTop: '5rem', borderRadius: '1.5rem', borderColor: 'rgba(var(--gold-rgb),0.22)', padding: 'clamp(2.5rem, 5vw, 4rem)', textAlign: 'center' }}>
+          <h2 className="font-display" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
             Planning a Private Event?
           </h2>
           <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '1rem', marginBottom: '2rem', maxWidth: '36rem', marginInline: 'auto', lineHeight: 1.7 }}>

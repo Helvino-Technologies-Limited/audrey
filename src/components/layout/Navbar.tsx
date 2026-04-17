@@ -37,10 +37,10 @@ export default function Navbar() {
   }, []);
 
   const navBg = scrolled
-    ? 'rgba(13,13,13,0.96)'
+    ? 'rgba(var(--bg-rgb),0.96)'
     : 'transparent';
   const navBorder = scrolled
-    ? '1px solid rgba(201,168,76,0.18)'
+    ? '1px solid rgba(var(--gold-rgb),0.18)'
     : '1px solid transparent';
 
   return (
@@ -63,12 +63,12 @@ export default function Navbar() {
                 width: '44px', height: '44px', borderRadius: '50%',
                 border: '2px solid #C9A84C',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#C9A84C', fontWeight: 700, fontSize: '1.125rem',
+                color: 'var(--gold)', fontWeight: 700, fontSize: '1.125rem',
                 fontFamily: 'Georgia, serif',
               }}>A</div>
             )}
             <div>
-              <p style={{ color: '#C9A84C', fontWeight: 700, fontSize: '1.0625rem', lineHeight: 1.2, margin: 0 }}>{siteName}</p>
+              <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '1.0625rem', lineHeight: 1.2, margin: 0 }}>{siteName}</p>
               <p style={{ color: 'rgba(240,235,225,0.40)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0 }}>Golf Resort</p>
             </div>
           </Link>
@@ -81,7 +81,7 @@ export default function Navbar() {
                 fontSize: '0.8125rem', fontWeight: 600, letterSpacing: '0.06em',
                 textTransform: 'uppercase', transition: 'color 0.2s',
               }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#C9A84C')}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'rgba(240,235,225,0.78)')}
               >
                 {link.label}
@@ -93,7 +93,7 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} className="nav-desktop">
             <a href="tel:+254780306086" style={{
               display: 'flex', alignItems: 'center', gap: '0.375rem',
-              color: '#C9A84C', fontSize: '0.8125rem', textDecoration: 'none', transition: 'color 0.2s',
+              color: 'var(--gold)', fontSize: '0.8125rem', textDecoration: 'none', transition: 'color 0.2s',
             }}>
               <Phone size={13} />
               +254 780 306086
@@ -106,7 +106,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            style={{ background: 'none', border: 'none', color: '#F0EBE1', cursor: 'pointer', padding: '0.5rem', display: 'none' }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '0.5rem', display: 'none' }}
             className="nav-mobile-btn"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -117,8 +117,8 @@ export default function Navbar() {
       {/* Mobile menu */}
       {isOpen && (
         <div style={{
-          background: 'rgba(13,13,13,0.98)', backdropFilter: 'blur(12px)',
-          borderTop: '1px solid rgba(201,168,76,0.18)',
+          background: 'rgba(var(--bg-rgb),0.98)', backdropFilter: 'blur(12px)',
+          borderTop: '1px solid rgba(var(--gold-rgb),0.18)',
           padding: '1.25rem 1.5rem 1.5rem',
         }}>
           {navLinks.map(link => (
