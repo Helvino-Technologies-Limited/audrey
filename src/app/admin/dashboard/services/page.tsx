@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import FileUpload from '@/components/admin/FileUpload';
 
 interface Service {
   id: number;
@@ -25,6 +26,7 @@ export default function ServicesAdminPage() {
   const [loading, setLoading] = useState(true);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [featuresText, setFeaturesText] = useState('');
+  const [serviceImageUrl, setServiceImageUrl] = useState('');
 
   const { register, handleSubmit, reset, setValue } = useForm<Omit<Service, 'id'>>();
 
@@ -40,13 +42,14 @@ export default function ServicesAdminPage() {
     setValue('price_from', service.price_from);
     setValue('price_info', service.price_info);
     setValue('image_url', service.image_url || '');
+    setServiceImageUrl(service.image_url || '');
     setValue('icon', service.icon);
     setValue('is_active', service.is_active);
     setValue('display_order', service.display_order);
     setFeaturesText(service.features?.join('\n') || '');
   };
 
-  const closeEdit = () => { setEditingService(null); reset(); setFeaturesText(''); };
+  const closeEdit = () => { setEditingService(null); reset(); setFeaturesText(''); setServiceImageUrl(''); };
 
   const onSave = async (data: Omit<Service, 'id'>) => {
     if (!editingService) return;
@@ -55,7 +58,7 @@ export default function ServicesAdminPage() {
       const res = await fetch(`/api/services/${editingService.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, features }),
+        body: JSON.stringify({ ...data, features, image_url: serviceImageUrl }),
       });
       const updated = await res.json();
       setServices(prev => prev.map(s => s.id === editingService.id ? updated : s));
@@ -154,9 +157,14 @@ export default function ServicesAdminPage() {
                 </div>
 
                 <div>
-                  <label className="text-white/60 text-xs mb-1.5 block">Image URL</label>
-                  <input {...register('image_url')} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="https://..." />
-                  <p className="text-white/30 text-xs mt-1">Paste a Cloudinary URL or upload via Media Library</p>
+                  <input {...register('image_url')} type="hidden" />
+                  <FileUpload
+                    label="Service Image"
+                    mediaType="image"
+                    category="services"
+                    currentUrl={serviceImageUrl || null}
+                    onUpload={url => { setServiceImageUrl(url); setValue('image_url', url); }}
+                  />
                 </div>
 
                 <div className="flex gap-4 pt-2">

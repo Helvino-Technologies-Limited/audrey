@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminUser } from '@/lib/auth';
 import sql from '@/lib/db';
-import { v2 as cloudinary } from 'cloudinary';
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
 
 export async function POST(request: NextRequest) {
   const admin = await getAdminUser();
@@ -16,40 +12,35 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File;
-    const category = formData.get('category') as string || 'general';
-    const altText = formData.get('alt_text') as string || '';
-    const mediaType = formData.get('type') as string || 'image';
+    const category = (formData.get('category') as string) || 'general';
+    const altText = (formData.get('alt_text') as string) || '';
+    const mediaType = (formData.get('type') as string) || 'image';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
+    const maxSize = mediaType === 'video' ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+    if (file.size > maxSize) {
+      return NextResponse.json(
+        { error: `File too large. Max size: ${maxSize / 1024 / 1024}MB` },
+        { status: 400 }
+      );
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const base64 = buffer.toString('base64');
+    const mimeType = file.type || (mediaType === 'video' ? 'video/mp4' : 'image/jpeg');
+    const dataUrl = `data:${mimeType};base64,${base64}`;
 
-    // Upload to cloudinary
-    const uploadResult = await new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          resource_type: mediaType === 'video' ? 'video' : 'image',
-          folder: `audrey-resort/${category}`,
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result as { secure_url: string; public_id: string });
-        }
-      );
-      uploadStream.end(buffer);
-    });
-
-    // Save to database
     const media = await sql`
-      INSERT INTO media (filename, url, public_id, type, category, alt_text)
-      VALUES (${file.name}, ${uploadResult.secure_url}, ${uploadResult.public_id}, ${mediaType}, ${category}, ${altText})
-      RETURNING *
+      INSERT INTO media (filename, url, type, category, alt_text)
+      VALUES (${file.name}, ${dataUrl}, ${mediaType}, ${category}, ${altText})
+      RETURNING id, filename, url, type, category, alt_text, created_at
     `;
 
-    return NextResponse.json({ success: true, media: media[0], url: uploadResult.secure_url });
+    return NextResponse.json({ success: true, media: media[0], url: dataUrl });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });

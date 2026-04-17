@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, X } from 'lucide-react';
+import FileUpload from '@/components/admin/FileUpload';
 
 interface GalleryItem {
   id: number;
@@ -19,6 +20,7 @@ export default function GalleryAdminPage() {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
+  const [newImageUrl, setNewImageUrl] = useState('');
   const { register, handleSubmit, reset } = useForm<Omit<GalleryItem, 'id' | 'is_active'>>();
 
   useEffect(() => {
@@ -26,16 +28,18 @@ export default function GalleryAdminPage() {
   }, []);
 
   const onAdd = async (data: Omit<GalleryItem, 'id' | 'is_active'>) => {
+    if (!newImageUrl) { toast.error('Please upload an image'); return; }
     try {
       const res = await fetch('/api/gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, image_url: newImageUrl }),
       });
       const item = await res.json();
       setItems(prev => [item, ...prev]);
       toast.success('Gallery item added');
       reset();
+      setNewImageUrl('');
       setShowAdd(false);
     } catch {
       toast.error('Failed to add item');
@@ -113,12 +117,17 @@ export default function GalleryAdminPage() {
           <div className="bg-[#1A1A1A] border border-[#C9A84C]/20 rounded-2xl w-full max-w-md p-8">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-white font-bold text-lg">Add Gallery Photo</h3>
-              <button onClick={() => { setShowAdd(false); reset(); }} className="text-white/40 hover:text-white"><X size={20} /></button>
+              <button onClick={() => { setShowAdd(false); reset(); setNewImageUrl(''); }} className="text-white/40 hover:text-white"><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit(onAdd)} className="space-y-4">
               <div>
-                <label className="text-white/60 text-xs mb-1.5 block">Image URL *</label>
-                <input {...register('image_url', { required: true })} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="Paste Cloudinary URL..." />
+                <FileUpload
+                  label="Photo *"
+                  mediaType="image"
+                  category="gallery"
+                  currentUrl={newImageUrl || null}
+                  onUpload={setNewImageUrl}
+                />
               </div>
               <div>
                 <label className="text-white/60 text-xs mb-1.5 block">Title / Caption</label>
@@ -137,7 +146,7 @@ export default function GalleryAdminPage() {
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="submit" className="btn-gold flex-1 py-3 rounded-xl text-sm font-semibold">Add Photo</button>
-                <button type="button" onClick={() => { setShowAdd(false); reset(); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm">Cancel</button>
+                <button type="button" onClick={() => { setShowAdd(false); reset(); setNewImageUrl(''); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm">Cancel</button>
               </div>
             </form>
           </div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import FileUpload from '@/components/admin/FileUpload';
 
 interface Event {
   id: number;
@@ -22,6 +23,7 @@ export default function EventsAdminPage() {
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [eventImageUrl, setEventImageUrl] = useState('');
   const { register, handleSubmit, reset, watch } = useForm<Omit<Event, 'id' | 'is_active'>>();
   const isRecurring = watch('is_recurring');
 
@@ -34,12 +36,13 @@ export default function EventsAdminPage() {
       const res = await fetch('/api/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, image_url: eventImageUrl || null }),
       });
       const event = await res.json();
       setEvents(prev => [...prev, event]);
       toast.success('Event added');
       reset();
+      setEventImageUrl('');
       setShowAdd(false);
     } catch { toast.error('Failed'); }
   };
@@ -98,12 +101,18 @@ export default function EventsAdminPage() {
         </div>
       )}
       <div>
-        <label className="text-white/60 text-xs mb-1.5 block">Image URL</label>
-        <input {...register('image_url')} defaultValue={defaultValues?.image_url || ''} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="https://..." />
+        <input {...register('image_url')} type="hidden" />
+        <FileUpload
+          label="Event Image"
+          mediaType="image"
+          category="events"
+          currentUrl={eventImageUrl || defaultValues?.image_url || null}
+          onUpload={url => setEventImageUrl(url)}
+        />
       </div>
       <div className="flex gap-3 pt-2">
         <button type="submit" className="btn-gold flex-1 py-3 rounded-xl text-sm font-semibold">Save Event</button>
-        <button type="button" onClick={() => { setShowAdd(false); setEditingEvent(null); reset(); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm">Cancel</button>
+        <button type="button" onClick={() => { setShowAdd(false); setEditingEvent(null); reset(); setEventImageUrl(''); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm">Cancel</button>
       </div>
     </form>
   );
@@ -154,7 +163,7 @@ export default function EventsAdminPage() {
           <div className="bg-[#1A1A1A] border border-[#C9A84C]/20 rounded-2xl w-full max-w-md p-8 my-4">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-white font-bold text-lg">{editingEvent ? 'Edit Event' : 'Add Event'}</h3>
-              <button onClick={() => { setShowAdd(false); setEditingEvent(null); reset(); }} className="text-white/40 hover:text-white"><X size={20} /></button>
+              <button onClick={() => { setShowAdd(false); setEditingEvent(null); reset(); setEventImageUrl(''); }} className="text-white/40 hover:text-white"><X size={20} /></button>
             </div>
             <EventForm onSubmit={onAdd} defaultValues={editingEvent || undefined} />
           </div>

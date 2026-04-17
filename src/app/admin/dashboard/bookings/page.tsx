@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Plus, X } from 'lucide-react';
 
 interface Booking {
   id: number;
@@ -21,6 +22,19 @@ interface Booking {
   created_at: string;
 }
 
+interface BookingForm {
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  service_name: string;
+  booking_date: string;
+  booking_time: string;
+  guests: number;
+  special_requests: string;
+  total_amount: number;
+  notes: string;
+}
+
 const statusColors: Record<string, string> = {
   pending: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
   confirmed: 'text-green-400 bg-green-400/10 border-green-400/20',
@@ -28,12 +42,28 @@ const statusColors: Record<string, string> = {
   cancelled: 'text-red-400 bg-red-400/10 border-red-400/20',
 };
 
+const SERVICE_OPTIONS = [
+  'Accommodation',
+  'Fine Dining',
+  'Golf Course',
+  'Swimming Pool',
+  'Conference Hall',
+  'Bar & Entertainment',
+  'Events & Weddings',
+];
+
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [showCreate, setShowCreate] = useState(false);
+  const [creating, setCreating] = useState(false);
+
+  const { register, handleSubmit, reset } = useForm<BookingForm>({
+    defaultValues: { guests: 1, booking_time: '10:00' },
+  });
 
   useEffect(() => {
     fetch('/api/bookings')
@@ -42,6 +72,27 @@ export default function BookingsPage() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  const createBooking = async (data: BookingForm) => {
+    setCreating(true);
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, guests: Number(data.guests), total_amount: Number(data.total_amount) || 0 }),
+      });
+      const booking = await res.json();
+      if (!res.ok) throw new Error(booking.error || 'Failed to create booking');
+      setBookings(prev => [booking, ...prev]);
+      toast.success('Booking created successfully');
+      reset();
+      setShowCreate(false);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to create booking');
+    } finally {
+      setCreating(false);
+    }
+  };
 
   const updateStatus = async (id: number, status: string) => {
     try {
@@ -72,17 +123,27 @@ export default function BookingsPage() {
 
   const filtered = bookings.filter(b => {
     const matchSearch = !search || b.customer_name.toLowerCase().includes(search.toLowerCase()) ||
-      b.reference.toLowerCase().includes(search.toLowerCase()) ||
+      b.reference?.toLowerCase().includes(search.toLowerCase()) ||
       b.customer_email.toLowerCase().includes(search.toLowerCase());
     const matchStatus = filterStatus === 'all' || b.status === filterStatus;
     return matchSearch && matchStatus;
   });
 
+  const inputCls = 'w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20';
+
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-white mb-1">Bookings</h1>
-        <p className="text-white/40 text-sm">Manage all service bookings</p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-3xl font-bold text-white mb-1">Bookings</h1>
+          <p className="text-white/40 text-sm">Manage all service bookings</p>
+        </div>
+        <button
+          onClick={() => setShowCreate(true)}
+          className="btn-gold px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+        >
+          <Plus size={16} /> New Booking
+        </button>
       </div>
 
       {/* Filters */}
@@ -171,6 +232,79 @@ export default function BookingsPage() {
         </div>
       )}
 
+      {/* Create Booking Modal */}
+      {showCreate && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#1A1A1A] border border-[#C9A84C]/20 rounded-2xl w-full max-w-lg my-4">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-display text-xl font-bold text-white">Create Booking</h3>
+                <button onClick={() => { setShowCreate(false); reset(); }} className="text-white/40 hover:text-white"><X size={20} /></button>
+              </div>
+              <form onSubmit={handleSubmit(createBooking)} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-white/60 text-xs mb-1.5 block">Customer Name *</label>
+                    <input {...register('customer_name', { required: true })} className={inputCls} placeholder="Full name" />
+                  </div>
+                  <div>
+                    <label className="text-white/60 text-xs mb-1.5 block">Phone</label>
+                    <input {...register('customer_phone')} className={inputCls} placeholder="+254..." />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs mb-1.5 block">Email *</label>
+                  <input {...register('customer_email', { required: true })} type="email" className={inputCls} placeholder="customer@email.com" />
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs mb-1.5 block">Service *</label>
+                  <select {...register('service_name', { required: true })} className={inputCls}>
+                    <option value="">Select service...</option>
+                    {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-white/60 text-xs mb-1.5 block">Date *</label>
+                    <input {...register('booking_date', { required: true })} type="date" className={inputCls} />
+                  </div>
+                  <div>
+                    <label className="text-white/60 text-xs mb-1.5 block">Time</label>
+                    <input {...register('booking_time')} type="time" className={inputCls} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-white/60 text-xs mb-1.5 block">Guests *</label>
+                    <input {...register('guests', { required: true, min: 1 })} type="number" min={1} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className="text-white/60 text-xs mb-1.5 block">Total Amount (KES)</label>
+                    <input {...register('total_amount')} type="number" min={0} className={inputCls} placeholder="0" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs mb-1.5 block">Special Requests</label>
+                  <textarea {...register('special_requests')} rows={2} className={`${inputCls} resize-none`} placeholder="Any special requirements..." />
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs mb-1.5 block">Admin Notes</label>
+                  <textarea {...register('notes')} rows={2} className={`${inputCls} resize-none`} placeholder="Internal notes..." />
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button type="submit" disabled={creating} className="btn-gold flex-1 py-3 rounded-xl text-sm font-semibold disabled:opacity-60">
+                    {creating ? 'Creating...' : 'Create Booking'}
+                  </button>
+                  <button type="button" onClick={() => { setShowCreate(false); reset(); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm hover:bg-white/5">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Detail Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedBooking(null)}>
@@ -190,6 +324,7 @@ export default function BookingsPage() {
                 { l: 'Time', v: selectedBooking.booking_time || 'N/A' },
                 { l: 'Guests', v: String(selectedBooking.guests) },
                 { l: 'Special Requests', v: selectedBooking.special_requests || 'None' },
+                { l: 'Notes', v: selectedBooking.notes || 'None' },
               ].map(({ l, v }) => (
                 <div key={l} className="flex gap-4">
                   <span className="text-white/40 w-32 shrink-0">{l}</span>

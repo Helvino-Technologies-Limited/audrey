@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X, ChevronDown, ChevronRight } from 'lucide-react';
+import FileUpload from '@/components/admin/FileUpload';
 
 interface MenuItem {
   id: number;
@@ -29,6 +30,8 @@ export default function MenuAdminPage() {
   const [showAddItem, setShowAddItem] = useState<number | null>(null);
   const [showAddCat, setShowAddCat] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem & { category_id: number } | null>(null);
+  const [addItemImageUrl, setAddItemImageUrl] = useState('');
+  const [editItemImageUrl, setEditItemImageUrl] = useState('');
 
   const { register: regItem, handleSubmit: handleItemSubmit, reset: resetItem } = useForm<Omit<MenuItem, 'id'>>();
   const { register: regCat, handleSubmit: handleCatSubmit, reset: resetCat } = useForm<{ name: string; description: string }>();
@@ -58,12 +61,13 @@ export default function MenuAdminPage() {
       const res = await fetch('/api/menu', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'item', category_id: categoryId, ...data, price: Number(data.price) }),
+        body: JSON.stringify({ type: 'item', category_id: categoryId, ...data, price: Number(data.price), image_url: addItemImageUrl || null }),
       });
       const item = await res.json();
       setCategories(prev => prev.map(c => c.id === categoryId ? { ...c, items: [...(c.items || []), item] } : c));
       toast.success('Item added');
       resetItem();
+      setAddItemImageUrl('');
       setShowAddItem(null);
     } catch { toast.error('Failed'); }
   };
@@ -76,6 +80,7 @@ export default function MenuAdminPage() {
     setEditValue('is_vegetarian', item.is_vegetarian);
     setEditValue('is_available', item.is_available);
     setEditValue('image_url', item.image_url || '');
+    setEditItemImageUrl(item.image_url || '');
   };
 
   const saveEdit = async (data: Omit<MenuItem, 'id'>) => {
@@ -84,7 +89,7 @@ export default function MenuAdminPage() {
       const res = await fetch(`/api/menu/${editingItem.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'item', ...data, price: Number(data.price) }),
+        body: JSON.stringify({ type: 'item', ...data, price: Number(data.price), image_url: editItemImageUrl || null }),
       });
       const updated = await res.json();
       setCategories(prev => prev.map(c => c.id === editingItem.category_id
@@ -94,6 +99,7 @@ export default function MenuAdminPage() {
       toast.success('Item updated');
       setEditingItem(null);
       resetEdit();
+      setEditItemImageUrl('');
     } catch { toast.error('Failed'); }
   };
 
@@ -199,7 +205,7 @@ export default function MenuAdminPage() {
           <div className="bg-[#1A1A1A] border border-[#C9A84C]/20 rounded-2xl w-full max-w-md p-8">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-white font-bold text-lg">Add Menu Item</h3>
-              <button onClick={() => { setShowAddItem(null); resetItem(); }} className="text-white/40 hover:text-white"><X size={20} /></button>
+              <button onClick={() => { setShowAddItem(null); resetItem(); setAddItemImageUrl(''); }} className="text-white/40 hover:text-white"><X size={20} /></button>
             </div>
             <form onSubmit={handleItemSubmit(data => addItem(data, showAddItem))} className="space-y-4">
               <div>
@@ -210,15 +216,19 @@ export default function MenuAdminPage() {
                 <label className="text-white/60 text-xs mb-1.5 block">Description</label>
                 <textarea {...regItem('description')} rows={2} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 resize-none" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-white/60 text-xs mb-1.5 block">Price (KES) *</label>
-                  <input {...regItem('price', { required: true, min: 0 })} type="number" className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50" />
-                </div>
-                <div>
-                  <label className="text-white/60 text-xs mb-1.5 block">Image URL</label>
-                  <input {...regItem('image_url')} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="https://..." />
-                </div>
+              <div>
+                <label className="text-white/60 text-xs mb-1.5 block">Price (KES) *</label>
+                <input {...regItem('price', { required: true, min: 0 })} type="number" className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50" />
+              </div>
+              <div>
+                <input {...regItem('image_url')} type="hidden" />
+                <FileUpload
+                  label="Item Image"
+                  mediaType="image"
+                  category="menu"
+                  currentUrl={addItemImageUrl || null}
+                  onUpload={url => { setAddItemImageUrl(url); }}
+                />
               </div>
               <div className="flex gap-6">
                 <label className="flex items-center gap-2 text-white/70 text-sm cursor-pointer">
@@ -232,7 +242,7 @@ export default function MenuAdminPage() {
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="submit" className="btn-gold flex-1 py-3 rounded-xl text-sm font-semibold">Add Item</button>
-                <button type="button" onClick={() => { setShowAddItem(null); resetItem(); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm">Cancel</button>
+                <button type="button" onClick={() => { setShowAddItem(null); resetItem(); setAddItemImageUrl(''); }} className="border border-white/20 px-5 py-3 rounded-xl text-white/60 text-sm">Cancel</button>
               </div>
             </form>
           </div>
@@ -256,15 +266,19 @@ export default function MenuAdminPage() {
                 <label className="text-white/60 text-xs mb-1.5 block">Description</label>
                 <textarea {...regEdit('description')} rows={2} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 resize-none" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-white/60 text-xs mb-1.5 block">Price (KES)</label>
-                  <input {...regEdit('price')} type="number" className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50" />
-                </div>
-                <div>
-                  <label className="text-white/60 text-xs mb-1.5 block">Image URL</label>
-                  <input {...regEdit('image_url')} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="https://..." />
-                </div>
+              <div>
+                <label className="text-white/60 text-xs mb-1.5 block">Price (KES)</label>
+                <input {...regEdit('price')} type="number" className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50" />
+              </div>
+              <div>
+                <input {...regEdit('image_url')} type="hidden" />
+                <FileUpload
+                  label="Item Image"
+                  mediaType="image"
+                  category="menu"
+                  currentUrl={editItemImageUrl || null}
+                  onUpload={url => { setEditItemImageUrl(url); setEditValue('image_url', url); }}
+                />
               </div>
               <div className="flex gap-6">
                 <label className="flex items-center gap-2 text-white/70 text-sm cursor-pointer">

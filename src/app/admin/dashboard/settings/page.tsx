@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Save, Lock, Globe, Phone, Video, Image as ImageIcon } from 'lucide-react';
+import FileUpload from '@/components/admin/FileUpload';
 
 interface SiteSettings {
   site_name: string;
@@ -30,7 +31,9 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  const { register: regSettings, handleSubmit: handleSettingsSubmit, reset: resetSettings } = useForm<SiteSettings>();
+  const { register: regSettings, handleSubmit: handleSettingsSubmit, reset: resetSettings, setValue: setSettingsValue, watch: watchSettings } = useForm<SiteSettings>();
+  const logoUrl = watchSettings('logo_url');
+  const heroVideoUrl = watchSettings('hero_video_url');
   const { register: regPass, handleSubmit: handlePassSubmit, reset: resetPass, watch } = useForm<PasswordForm>();
   const newPassword = watch('newPassword');
 
@@ -143,18 +146,25 @@ export default function SettingsPage() {
           </h3>
           <div className="space-y-5">
             <div>
-              <label className="text-white/60 text-xs mb-1.5 block flex items-center gap-1.5">
-                <ImageIcon size={12} /> Logo URL
-              </label>
-              <input {...regSettings('logo_url')} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="https://..." />
-              <p className="text-white/30 text-xs mt-1">Upload via Media Library, then paste URL here</p>
+              <p className="text-white/60 text-xs mb-1.5 flex items-center gap-1.5"><ImageIcon size={12} /> Logo Image</p>
+              <input {...regSettings('logo_url')} type="hidden" />
+              <FileUpload
+                mediaType="image"
+                category="branding"
+                currentUrl={logoUrl}
+                onUpload={url => setSettingsValue('logo_url', url)}
+              />
             </div>
             <div>
-              <label className="text-white/60 text-xs mb-1.5 block flex items-center gap-1.5">
-                <Video size={12} /> Hero Background Video URL
-              </label>
-              <input {...regSettings('hero_video_url')} className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C9A84C]/50 placeholder-white/20" placeholder="https://..." />
-              <p className="text-white/30 text-xs mt-1">Upload a video via Media Library and paste the URL here. It will play on the homepage background.</p>
+              <p className="text-white/60 text-xs mb-1.5 flex items-center gap-1.5"><Video size={12} /> Hero Background Video</p>
+              <input {...regSettings('hero_video_url')} type="hidden" />
+              <FileUpload
+                mediaType="video"
+                category="hero"
+                currentUrl={heroVideoUrl}
+                onUpload={url => setSettingsValue('hero_video_url', url)}
+              />
+              <p className="text-white/30 text-xs mt-1">This video will play on the homepage hero background.</p>
             </div>
           </div>
         </div>

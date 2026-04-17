@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import {
   LayoutDashboard, Calendar, ShoppingBag, Star, Settings,
   Image as ImageIcon, UtensilsCrossed, Layers, Film, LogOut,
-  ChevronLeft, ChevronRight, CalendarDays, BedDouble
+  ChevronLeft, ChevronRight, CalendarDays, BedDouble, FileEdit
 } from 'lucide-react';
 
 const navItems = [
@@ -19,6 +19,7 @@ const navItems = [
   { label: 'Menu', href: '/admin/dashboard/menu', icon: UtensilsCrossed },
   { label: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
   { label: 'Events', href: '/admin/dashboard/events', icon: CalendarDays },
+  { label: 'Page Editor', href: '/admin/dashboard/page-editor', icon: FileEdit },
   { label: 'Media Library', href: '/admin/dashboard/media', icon: Film },
   { label: 'Settings', href: '/admin/dashboard/settings', icon: Settings },
 ];
