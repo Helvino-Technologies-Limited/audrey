@@ -4,6 +4,16 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Phone } from 'lucide-react';
 
+function getYouTubeId(url: string) {
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function getVimeoId(url: string) {
+  const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return m ? m[1] : null;
+}
+
 export default function HeroSection() {
   const [content, setContent] = useState({
     title: 'Welcome to The Audrey Golf Resort',
@@ -38,11 +48,30 @@ export default function HeroSection() {
       }}
     >
       {/* Background */}
-      {videoUrl ? (
-        <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
-          <source src={videoUrl} type="video/mp4" />
-        </video>
-      ) : (
+      {videoUrl ? (() => {
+        const ytId = getYouTubeId(videoUrl);
+        const vimeoId = getVimeoId(videoUrl);
+        if (ytId) return (
+          <iframe
+            src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0&modestbranding=1`}
+            allow="autoplay; fullscreen"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', transform: 'scale(1.5)', pointerEvents: 'none' }}
+          />
+        );
+        if (vimeoId) return (
+          <iframe
+            src={`https://player.vimeo.com/video/${vimeoId}?autoplay=1&muted=1&loop=1&background=1`}
+            allow="autoplay; fullscreen"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', transform: 'scale(1.2)', pointerEvents: 'none' }}
+          />
+        );
+        // Direct video URL (.mp4 etc.)
+        return (
+          <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
+            <source src={videoUrl} />
+          </video>
+        );
+      })() : (
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #1a0e00 0%, #0D0D0D 50%, #000a05 100%)' }}>
           <div style={{ position: 'absolute', top: '-80px', left: '-80px', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%)' }} />
           <div style={{ position: 'absolute', bottom: '-60px', right: '-60px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)' }} />
