@@ -15,6 +15,7 @@ interface SiteSettings {
   mpesa_till: string;
   operating_hours: string;
   hero_video_url: string;
+  hero_image_url: string;
   logo_url: string;
   facebook_url: string;
   instagram_url: string;
@@ -165,6 +166,21 @@ export default function SettingsPage() {
               category="branding"
               currentUrl={logoUrl}
               onUpload={url => setSettingsValue('logo_url', url)}
+            />
+          </div>
+
+          {/* Hero background image */}
+          <div style={{ marginBottom: '1.75rem' }}>
+            <label style={{ color: 'rgba(240,235,225,0.55)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <ImageIcon size={12} style={{ color: '#C9A84C' }} />
+              Home Page Background Photo <span style={{ color: 'rgba(240,235,225,0.30)' }}>— shown as hero background when no video is set</span>
+            </label>
+            <input {...regSettings('hero_image_url')} type="hidden" />
+            <FileUpload
+              mediaType="image"
+              category="hero"
+              currentUrl={watchSettings('hero_image_url')}
+              onUpload={url => setSettingsValue('hero_image_url', url)}
             />
           </div>
 
