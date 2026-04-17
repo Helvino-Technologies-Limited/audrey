@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import sql from '@/lib/db';
 import { getAdminUser, generateReference } from '@/lib/auth';
+import { sendAdminEmail, orderEmailHtml } from '@/lib/email';
 
 export async function GET() {
   const admin = await getAdminUser();
@@ -31,7 +32,26 @@ export async function POST(request: NextRequest) {
       RETURNING *
     `;
 
-    return NextResponse.json({ success: true, order: result[0], reference }, { status: 201 });
+    const order = result[0];
+
+    // Send email notification (non-blocking)
+    sendAdminEmail({
+      subject: `New Food Order ${reference} — ${customer_name}`,
+      html: orderEmailHtml({
+        reference,
+        customer_name,
+        customer_email,
+        customer_phone,
+        arrival_date,
+        arrival_time,
+        guests: guests || 1,
+        items,
+        total_amount,
+        special_requests,
+      }),
+    }).catch(() => {});
+
+    return NextResponse.json({ success: true, order, reference }, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });

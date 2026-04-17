@@ -6,11 +6,12 @@ export async function GET() {
   const admin = await getAdminUser();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const [bookings, orders, reviews, pendingReviews] = await Promise.all([
+  const [bookings, orders, reviews, pendingReviews, unreadMessages] = await Promise.all([
     sql`SELECT COUNT(*) as count, status FROM bookings GROUP BY status`,
     sql`SELECT COUNT(*) as count, status FROM food_orders GROUP BY status`,
     sql`SELECT COUNT(*) as count FROM reviews WHERE is_approved = true`,
     sql`SELECT COUNT(*) as count FROM reviews WHERE is_approved = false`,
+    sql`SELECT COUNT(*) as count FROM contact_messages WHERE is_read = false`,
   ]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,5 +28,7 @@ export async function GET() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       pending: Number((pendingReviews as any[])[0]?.count || 0),
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    messages: { unread: Number((unreadMessages as any[])[0]?.count || 0) },
   });
 }

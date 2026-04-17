@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Save, Lock, Globe, Phone, Video, Image as ImageIcon, Palette } from 'lucide-react';
+import { Save, Lock, Globe, Phone, Video, Image as ImageIcon, Palette, Mail } from 'lucide-react';
 import FileUpload from '@/components/admin/FileUpload';
 
 interface SiteSettings {
@@ -297,6 +297,34 @@ export default function SettingsPage() {
           {saving ? 'Saving…' : 'Save All Settings'}
         </button>
       </form>
+
+      {/* ── Email Notifications ── */}
+      <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem', borderColor: 'rgba(56,189,248,0.20)' }}>
+        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#F0EBE1', fontWeight: 600, marginBottom: '0.5rem', fontSize: '0.9375rem' }}>
+          <Mail size={16} style={{ color: '#38BDF8' }} /> Email Notifications
+        </h3>
+        <p style={{ color: 'rgba(240,235,225,0.45)', fontSize: '0.8125rem', marginBottom: '1rem', lineHeight: 1.65 }}>
+          To receive email alerts when a client sends a message, places an order, or makes a booking, add the following environment variables in your <strong style={{ color: 'rgba(240,235,225,0.75)' }}>Vercel project settings → Environment Variables</strong>:
+        </p>
+        <div style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '0.75rem', padding: '1rem 1.25rem', fontFamily: 'monospace', fontSize: '0.8rem', lineHeight: 2 }}>
+          {[
+            ['SMTP_HOST', 'smtp.gmail.com'],
+            ['SMTP_PORT', '587'],
+            ['SMTP_USER', 'your-gmail@gmail.com'],
+            ['SMTP_PASS', 'your-gmail-app-password'],
+            ['ADMIN_EMAIL', 'email-to-receive-alerts@gmail.com'],
+          ].map(([k, v]) => (
+            <div key={k}>
+              <span style={{ color: '#38BDF8' }}>{k}</span>
+              <span style={{ color: 'rgba(240,235,225,0.40)' }}>=</span>
+              <span style={{ color: 'rgba(240,235,225,0.55)' }}>{v}</span>
+            </div>
+          ))}
+        </div>
+        <p style={{ color: 'rgba(240,235,225,0.30)', fontSize: '0.75rem', marginTop: '0.75rem' }}>
+          For Gmail: enable 2-Step Verification, then generate an <strong style={{ color: 'rgba(240,235,225,0.50)' }}>App Password</strong> under Google Account → Security → App Passwords. Use that as SMTP_PASS.
+        </p>
+      </div>
 
       {/* ── Change Password ── */}
       <div className="glass-card" style={{ padding: '1.75rem' }}>

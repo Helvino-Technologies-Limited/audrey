@@ -36,10 +36,18 @@ export default function ContactPage() {
   }, []);
 
   const onSubmitContact = async (data: FormData) => {
-    // Since we don't have email sending set up, just show success
-    await new Promise(r => setTimeout(r, 800));
-    toast.success('Message sent! We\'ll get back to you shortly.');
-    reset();
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error();
+      toast.success('Message sent! We\'ll get back to you shortly.');
+      reset();
+    } catch {
+      toast.error('Failed to send message. Please try again.');
+    }
   };
 
   const onSubmitReview = async (data: ReviewFormData) => {

@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BedDouble, ShoppingBag, Star, Clock, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
+import { BedDouble, ShoppingBag, Star, Clock, CheckCircle2, XCircle, AlertCircle, MessageSquare } from 'lucide-react';
 
 interface Stats {
   bookings: { total: number; byStatus: { count: string; status: string }[] };
   orders: { total: number; byStatus: { count: string; status: string }[] };
   reviews: { approved: number; pending: number };
+  messages: { unread: number };
 }
 
 export default function AdminDashboard() {
@@ -81,16 +82,17 @@ export default function AdminDashboard() {
           <p className="text-white/40 text-xs mt-1">Approved reviews</p>
         </div>
 
-        <div className="glass-card rounded-2xl p-6">
+        <Link href="/admin/dashboard/messages" className="glass-card rounded-2xl p-6 block no-underline" style={{ textDecoration: 'none', cursor: 'pointer' }}>
           <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-xl bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center">
-              <Clock size={18} className="text-yellow-400" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{ background: stats?.messages?.unread ? 'rgba(56,189,248,0.15)' : 'rgba(255,255,255,0.06)', border: stats?.messages?.unread ? '1px solid rgba(56,189,248,0.30)' : '1px solid rgba(255,255,255,0.10)' }}>
+              <MessageSquare size={18} style={{ color: stats?.messages?.unread ? '#38BDF8' : 'rgba(240,235,225,0.30)' }} />
             </div>
-            <span className="text-white/30 text-xs uppercase tracking-wide">Pending</span>
+            <span className="text-white/30 text-xs uppercase tracking-wide">Messages</span>
           </div>
-          <p className="text-white font-bold text-3xl">{stats?.reviews.pending || 0}</p>
-          <p className="text-white/40 text-xs mt-1">Reviews awaiting approval</p>
-        </div>
+          <p className="text-white font-bold text-3xl">{stats?.messages?.unread || 0}</p>
+          <p className="text-white/40 text-xs mt-1">Unread contact messages</p>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">

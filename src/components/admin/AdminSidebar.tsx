@@ -7,11 +7,12 @@ import toast from 'react-hot-toast';
 import {
   LayoutDashboard, Calendar, ShoppingBag, Star, Settings,
   Image as ImageIcon, UtensilsCrossed, Layers, Film, LogOut,
-  CalendarDays, BedDouble, FileEdit, Menu, X, Globe
+  CalendarDays, BedDouble, FileEdit, Menu, X, Globe, MessageSquare
 } from 'lucide-react';
 
 const navItems = [
   { label: 'Dashboard',    href: '/admin/dashboard',              icon: LayoutDashboard },
+  { label: 'Messages',     href: '/admin/dashboard/messages',     icon: MessageSquare },
   { label: 'Bookings',     href: '/admin/dashboard/bookings',     icon: BedDouble },
   { label: 'Orders',       href: '/admin/dashboard/orders',       icon: ShoppingBag },
   { label: 'Reviews',      href: '/admin/dashboard/reviews',      icon: Star },
@@ -27,10 +28,10 @@ const navItems = [
 // Bottom nav shows only the most-used 5
 const bottomNav = [
   navItems[0], // Dashboard
-  navItems[1], // Bookings
-  navItems[2], // Orders
-  navItems[4], // Services
-  navItems[10], // Settings
+  navItems[1], // Messages
+  navItems[2], // Bookings
+  navItems[3], // Orders
+  navItems[11], // Settings
 ];
 
 export default function AdminSidebar() {
