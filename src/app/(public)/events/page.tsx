@@ -16,104 +16,83 @@ interface Event {
   recurrence_pattern: string | null;
 }
 
+const DEFAULT_EVENTS: Event[] = [
+  { id: 0, title: 'Live Music Nights', description: 'Join us every Friday and Saturday evening for live music performances from local and international artists. Enjoy craft cocktails and great company.', event_date: null, event_time: '19:00', image_url: null, is_recurring: true, recurrence_pattern: 'Every Friday & Saturday' },
+  { id: -1, title: 'Golf Tournament', description: 'Monthly golf tournaments open to all skill levels. Great prizes, friendly competition, and an unforgettable day on our championship greens.', event_date: null, event_time: '08:00', image_url: null, is_recurring: true, recurrence_pattern: 'Monthly' },
+  { id: -2, title: 'Weekend BBQ & Pool Party', description: 'Every weekend, join us poolside for our famous BBQ featuring nyama choma, pork ribs, and grilled fish. Live DJ and refreshing cocktails.', event_date: null, event_time: '12:00', image_url: null, is_recurring: true, recurrence_pattern: 'Every Weekend' },
+];
+
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>(DEFAULT_EVENTS);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/events')
       .then(r => r.json())
-      .then(setEvents)
+      .then((data: Event[]) => { if (Array.isArray(data) && data.length > 0) setEvents(data); })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
-  const defaultEvents = [
-    {
-      id: 0,
-      title: 'Live Music Nights',
-      description: 'Join us every Friday and Saturday evening for live music performances from local and international artists. Enjoy craft cocktails and great company.',
-      event_date: null,
-      event_time: '19:00',
-      image_url: null,
-      is_recurring: true,
-      recurrence_pattern: 'Every Friday & Saturday',
-    },
-    {
-      id: -1,
-      title: 'Golf Tournament',
-      description: 'Monthly golf tournaments open to all skill levels. Great prizes, friendly competition, and an unforgettable day on our championship greens.',
-      event_date: null,
-      event_time: '08:00',
-      image_url: null,
-      is_recurring: true,
-      recurrence_pattern: 'Monthly',
-    },
-    {
-      id: -2,
-      title: 'Weekend BBQ & Pool Party',
-      description: 'Every weekend, join us poolside for our famous BBQ featuring nyama choma, pork ribs, and grilled fish. Live DJ and refreshing cocktails.',
-      event_date: null,
-      event_time: '12:00',
-      image_url: null,
-      is_recurring: true,
-      recurrence_pattern: 'Every Weekend',
-    },
-  ];
-
-  const displayEvents = events.length > 0 ? events : defaultEvents;
-
   return (
-    <div className="min-h-screen bg-[#0D0D0D]">
-      <div className="pt-32 pb-16 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Experiences</p>
-          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">Events</h1>
-          <div className="divider-gold mx-auto mb-5" />
-          <p className="text-white/60 text-lg">From live music to golf tournaments — there's always something happening at The Audrey</p>
+    <div style={{ minHeight: '100vh', background: '#0D0D0D' }}>
+      {/* Header */}
+      <div style={{ paddingTop: '8rem', paddingBottom: '4rem', background: 'linear-gradient(to bottom, rgba(26,18,0,0.55) 0%, transparent 100%)', textAlign: 'center' }}>
+        <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '0 1.5rem' }}>
+          <p className="section-label">Experiences</p>
+          <h1 className="font-display" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.75rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>Events</h1>
+          <div className="divider-gold" style={{ margin: '0 auto 1.5rem' }} />
+          <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '1.0625rem', lineHeight: 1.7 }}>
+            From live music to golf tournaments — there's always something happening at The Audrey
+          </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem 5rem' }}>
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1,2,3].map(i => <div key={i} className="h-80 glass-card rounded-2xl shimmer" />)}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            {[1,2,3].map(i => <div key={i} className="card shimmer" style={{ height: '320px' }} />)}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayEvents.map((event) => (
-              <div key={event.id} className="glass-card rounded-2xl overflow-hidden hover:border-[#C9A84C]/30 transition-all group">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            {events.map(event => (
+              <div key={event.id} className="card" style={{ overflow: 'hidden', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(201,168,76,0.35)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              >
                 {event.image_url ? (
-                  <div className="relative h-52 overflow-hidden">
-                    <Image src={event.image_url} alt={event.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent" />
+                  <div style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                    <Image src={event.image_url} alt={event.title} fill style={{ objectFit: 'cover' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #161616 0%, transparent 60%)' }} />
                   </div>
                 ) : (
-                  <div className="h-52 bg-gradient-to-br from-[#C9A84C]/10 to-[#0D0D0D] flex items-center justify-center">
-                    <Calendar size={48} className="text-[#C9A84C]/30" />
+                  <div style={{ height: '160px', background: 'linear-gradient(135deg, rgba(201,168,76,0.10) 0%, #111111 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Calendar size={48} style={{ color: 'rgba(201,168,76,0.30)' }} />
                   </div>
                 )}
-                <div className="p-6">
-                  <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors">
+                <div style={{ padding: '1.5rem' }}>
+                  <h3 className="font-display" style={{ color: '#F0EBE1', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem' }}>
                     {event.title}
                   </h3>
-                  <p className="text-white/60 text-sm leading-relaxed mb-4 line-clamp-3">{event.description}</p>
-                  <div className="flex items-center gap-4 text-xs text-white/40">
+                  <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+                    {event.description}
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.875rem' }}>
                     {event.event_date && (
-                      <span className="flex items-center gap-1.5">
-                        <Calendar size={12} className="text-[#C9A84C]" />
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(240,235,225,0.45)', fontSize: '0.8rem' }}>
+                        <Calendar size={12} style={{ color: '#C9A84C' }} />
                         {new Date(event.event_date).toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </span>
                     )}
                     {event.is_recurring && (
-                      <span className="flex items-center gap-1.5 text-[#C9A84C]/70">
-                        <RefreshCcw size={12} className="text-[#C9A84C]" />
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(201,168,76,0.75)', fontSize: '0.8rem' }}>
+                        <RefreshCcw size={12} style={{ color: '#C9A84C' }} />
                         {event.recurrence_pattern}
                       </span>
                     )}
                     {event.event_time && (
-                      <span className="flex items-center gap-1.5">
-                        <Clock size={12} className="text-[#C9A84C]" />
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'rgba(240,235,225,0.45)', fontSize: '0.8rem' }}>
+                        <Clock size={12} style={{ color: '#C9A84C' }} />
                         {event.event_time}
                       </span>
                     )}
@@ -124,21 +103,17 @@ export default function EventsPage() {
           </div>
         )}
 
-        {/* CTA for private events */}
-        <div className="mt-20 glass-card rounded-3xl p-12 text-center border border-[#C9A84C]/20">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+        {/* Private events CTA */}
+        <div className="card" style={{ marginTop: '5rem', borderRadius: '1.5rem', borderColor: 'rgba(201,168,76,0.22)', padding: 'clamp(2.5rem, 5vw, 4rem)', textAlign: 'center' }}>
+          <h2 className="font-display" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1rem' }}>
             Planning a Private Event?
           </h2>
-          <p className="text-white/60 text-base mb-8 max-w-xl mx-auto">
+          <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '1rem', marginBottom: '2rem', maxWidth: '36rem', marginInline: 'auto', lineHeight: 1.7 }}>
             From weddings to corporate retreats, our expert events team will make your vision a reality. Contact us for custom packages.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/services/events" className="btn-gold px-8 py-4 rounded-full text-sm font-semibold tracking-wide uppercase">
-              Events & Weddings
-            </Link>
-            <Link href="/contact" className="px-8 py-4 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-semibold tracking-wide uppercase hover:bg-[#C9A84C]/10 transition-all">
-              Contact Us
-            </Link>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.875rem', justifyContent: 'center' }}>
+            <Link href="/services/events" className="btn-gold" style={{ padding: '0.875rem 1.75rem', borderRadius: '9999px' }}>Events &amp; Weddings</Link>
+            <Link href="/contact" className="btn-outline" style={{ padding: '0.875rem 1.75rem', borderRadius: '9999px' }}>Contact Us</Link>
           </div>
         </div>
       </div>

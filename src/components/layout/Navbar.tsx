@@ -6,129 +6,147 @@ import Image from 'next/image';
 import { Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Services', href: '/services' },
-  { label: 'Restaurant & Menu', href: '/menu' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Events', href: '/events' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home',      href: '/' },
+  { label: 'Services',  href: '/services' },
+  { label: 'Menu',      href: '/menu' },
+  { label: 'Gallery',   href: '/gallery' },
+  { label: 'Events',    href: '/events' },
+  { label: 'Contact',   href: '/contact' },
 ];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [logoUrl, setLogoUrl]   = useState<string | null>(null);
   const [siteName, setSiteName] = useState('The Audrey Golf Resort');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
     fetch('/api/settings')
       .then(r => r.json())
-      .then(data => {
-        if (data.logo_url) setLogoUrl(data.logo_url);
-        if (data.site_name) setSiteName(data.site_name);
+      .then(d => {
+        if (d.logo_url) setLogoUrl(d.logo_url);
+        if (d.site_name) setSiteName(d.site_name);
       })
       .catch(() => {});
   }, []);
 
+  const navBg = scrolled
+    ? 'rgba(13,13,13,0.96)'
+    : 'transparent';
+  const navBorder = scrolled
+    ? '1px solid rgba(201,168,76,0.18)'
+    : '1px solid transparent';
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      scrolled
-        ? 'bg-[#0D0D0D]/95 backdrop-blur-md shadow-lg border-b border-[#C9A84C]/20'
-        : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      background: navBg,
+      borderBottom: navBorder,
+      backdropFilter: scrolled ? 'blur(12px)' : undefined,
+      transition: 'background 0.4s, border-color 0.4s',
+    }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
+
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
             {logoUrl ? (
-              <Image
-                src={logoUrl}
-                alt={siteName}
-                width={50}
-                height={50}
-                className="rounded-full object-cover"
-              />
+              <Image src={logoUrl} alt={siteName} width={44} height={44} style={{ borderRadius: '50%', objectFit: 'cover' }} />
             ) : (
-              <div className="w-12 h-12 rounded-full border-2 border-[#C9A84C] flex items-center justify-center">
-                <span className="text-[#C9A84C] font-bold text-lg">A</span>
-              </div>
+              <div style={{
+                width: '44px', height: '44px', borderRadius: '50%',
+                border: '2px solid #C9A84C',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: '#C9A84C', fontWeight: 700, fontSize: '1.125rem',
+                fontFamily: 'Georgia, serif',
+              }}>A</div>
             )}
-            <div className="hidden sm:block">
-              <p className="text-[#C9A84C] font-bold text-lg leading-tight tracking-wide">{siteName}</p>
-              <p className="text-white/50 text-xs tracking-widest uppercase">Golf Resort</p>
+            <div>
+              <p style={{ color: '#C9A84C', fontWeight: 700, fontSize: '1.0625rem', lineHeight: 1.2, margin: 0 }}>{siteName}</p>
+              <p style={{ color: 'rgba(240,235,225,0.40)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0 }}>Golf Resort</p>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-white/80 hover:text-[#C9A84C] transition-colors text-sm tracking-wide font-medium uppercase"
+          {/* Desktop links */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="nav-desktop">
+            {navLinks.map(link => (
+              <Link key={link.href} href={link.href} style={{
+                color: 'rgba(240,235,225,0.78)', textDecoration: 'none',
+                fontSize: '0.8125rem', fontWeight: 600, letterSpacing: '0.06em',
+                textTransform: 'uppercase', transition: 'color 0.2s',
+              }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#C9A84C')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(240,235,225,0.78)')}
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a
-              href="tel:+254780306086"
-              className="flex items-center gap-2 text-[#C9A84C] text-sm hover:text-[#E8C96B] transition-colors"
-            >
-              <Phone size={14} />
-              <span>+254 780 306086</span>
+          {/* Desktop CTA */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} className="nav-desktop">
+            <a href="tel:+254780306086" style={{
+              display: 'flex', alignItems: 'center', gap: '0.375rem',
+              color: '#C9A84C', fontSize: '0.8125rem', textDecoration: 'none', transition: 'color 0.2s',
+            }}>
+              <Phone size={13} />
+              +254 780 306086
             </a>
-            <Link
-              href="/services/restaurant"
-              className="btn-gold px-5 py-2.5 rounded-full text-sm font-semibold"
-            >
+            <Link href="/services/restaurant" className="btn-gold" style={{ padding: '0.5rem 1.25rem', borderRadius: '9999px', fontSize: '0.8rem' }}>
               Book a Table
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile hamburger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden text-white hover:text-[#C9A84C] transition-colors"
+            style={{ background: 'none', border: 'none', color: '#F0EBE1', cursor: 'pointer', padding: '0.5rem', display: 'none' }}
+            className="nav-mobile-btn"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {isOpen && (
-        <div className="lg:hidden bg-[#0D0D0D]/98 backdrop-blur-md border-t border-[#C9A84C]/20">
-          <div className="px-4 py-6 space-y-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="block text-white/80 hover:text-[#C9A84C] transition-colors py-2 text-sm tracking-wide uppercase border-b border-white/10"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/services/restaurant"
-              onClick={() => setIsOpen(false)}
-              className="block btn-gold text-center py-3 rounded-full text-sm font-semibold mt-4"
-            >
-              Book a Table
+        <div style={{
+          background: 'rgba(13,13,13,0.98)', backdropFilter: 'blur(12px)',
+          borderTop: '1px solid rgba(201,168,76,0.18)',
+          padding: '1.25rem 1.5rem 1.5rem',
+        }}>
+          {navLinks.map(link => (
+            <Link key={link.href} href={link.href} onClick={() => setIsOpen(false)} style={{
+              display: 'block', padding: '0.75rem 0',
+              borderBottom: '1px solid rgba(255,255,255,0.07)',
+              color: 'rgba(240,235,225,0.78)', textDecoration: 'none',
+              fontSize: '0.875rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
+            }}>
+              {link.label}
             </Link>
-          </div>
+          ))}
+          <Link href="/services/restaurant" onClick={() => setIsOpen(false)} className="btn-gold" style={{
+            display: 'block', textAlign: 'center', marginTop: '1rem',
+            padding: '0.875rem', borderRadius: '9999px',
+          }}>
+            Book a Table
+          </Link>
         </div>
       )}
+
+      {/* Responsive: hide desktop nav on small screens */}
+      <style>{`
+        @media (max-width: 1023px) {
+          .nav-desktop { display: none !important; }
+          .nav-mobile-btn { display: flex !important; }
+        }
+      `}</style>
     </nav>
   );
 }

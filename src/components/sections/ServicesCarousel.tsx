@@ -19,24 +19,14 @@ interface Service {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  bed: <BedDouble size={28} />,
-  utensils: <UtensilsCrossed size={28} />,
-  trophy: <Trophy size={28} />,
-  waves: <Waves size={28} />,
-  presentation: <Monitor size={28} />,
-  music: <Music2 size={28} />,
-  star: <Star size={28} />,
+  bed: <BedDouble size={32} />,
+  utensils: <UtensilsCrossed size={32} />,
+  trophy: <Trophy size={32} />,
+  waves: <Waves size={32} />,
+  presentation: <Monitor size={32} />,
+  music: <Music2 size={32} />,
+  star: <Star size={32} />,
 };
-
-const placeholderColors = [
-  'from-amber-900/50 to-yellow-950',
-  'from-green-900/50 to-emerald-950',
-  'from-blue-900/50 to-indigo-950',
-  'from-cyan-900/50 to-teal-950',
-  'from-purple-900/50 to-violet-950',
-  'from-rose-900/50 to-pink-950',
-  'from-orange-900/50 to-red-950',
-];
 
 const STATIC_SERVICES: Service[] = [
   { id: 1, slug: 'accommodation', title: 'Accommodation', icon: 'bed', short_description: 'Luxurious furnished rooms with scenic countryside views and world-class amenities.', price_info: 'From KES 5,000/night', image_url: null, is_active: true },
@@ -48,11 +38,15 @@ const STATIC_SERVICES: Service[] = [
   { id: 7, slug: 'events', title: 'Events & Weddings', icon: 'star', short_description: 'Unforgettable weddings, corporate functions and private celebrations.', price_info: 'Contact us for pricing', image_url: null, is_active: true },
 ];
 
+const ICON_COLORS = [
+  '#C9A84C', '#4CAF9A', '#5B8CE8', '#C9A84C', '#9C7CE8', '#E87C5B', '#C9A84C',
+];
+
 export default function ServicesCarousel() {
   const [services, setServices] = useState<Service[]>(STATIC_SERVICES);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'start', slidesToScroll: 1 },
-    [Autoplay({ delay: 4000, stopOnInteraction: true })]
+    [Autoplay({ delay: 4500, stopOnInteraction: true })]
   );
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -69,69 +63,79 @@ export default function ServicesCarousel() {
   }, []);
 
   return (
-    <section className="py-24 bg-[#0D0D0D] relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C9A84C]/3 rounded-full blur-3xl pointer-events-none" />
+    <section style={{ padding: '5rem 0', background: '#0D0D0D', position: 'relative' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">What We Offer</p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-5">
+        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+          <p className="section-label">What We Offer</p>
+          <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>
             Our Signature Services
           </h2>
-          <div className="divider-gold mx-auto mb-5" />
-          <p className="text-white/60 max-w-xl mx-auto text-base leading-relaxed">
+          <div className="divider-gold" style={{ margin: '0 auto 1.25rem' }} />
+          <p style={{ color: 'rgba(240,235,225,0.60)', maxWidth: '36rem', margin: '0 auto', fontSize: '1rem', lineHeight: 1.7 }}>
             From championship golf to world-class dining, discover everything The Audrey Resort has to offer
           </p>
         </div>
 
         {/* Carousel */}
-        <div className="relative px-6">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-6">
+        <div style={{ position: 'relative', padding: '0 2.5rem' }}>
+          <div style={{ overflow: 'hidden' }} ref={emblaRef}>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
               {services.map((service, idx) => (
-                <div key={service.id} className="flex-none w-[280px] sm:w-[320px] lg:w-[360px]">
-                  <Link href={`/services/${service.slug}`}>
-                    <div className="glass-card rounded-2xl overflow-hidden hover:border-[#C9A84C]/50 transition-all duration-300 group h-[420px] flex flex-col cursor-pointer">
-                      {/* Image/Placeholder */}
-                      <div className="relative h-48 overflow-hidden">
+                <div key={service.id} style={{ flexShrink: 0, width: 'clamp(260px, 30vw, 340px)' }}>
+                  <Link href={`/services/${service.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                    <div className="card" style={{
+                      height: '420px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      overflow: 'hidden',
+                      transition: 'border-color 0.25s, transform 0.25s',
+                      cursor: 'pointer',
+                    }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,168,76,0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
+                    >
+                      {/* Image area */}
+                      <div style={{ position: 'relative', height: '200px', overflow: 'hidden', flexShrink: 0 }}>
                         {service.image_url ? (
-                          <Image
-                            src={service.image_url}
-                            alt={service.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
+                          <Image src={service.image_url} alt={service.title} fill style={{ objectFit: 'cover' }} />
                         ) : (
-                          <div className={`w-full h-full bg-gradient-to-br ${placeholderColors[idx % placeholderColors.length]} flex items-center justify-center relative`}>
-                            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C9A84C' fill-opacity='0.3'%3E%3Cpath d='M20 18v4h-4v-4h4zm-4-4h4V10h-4v4zm8 0h-4V10h4v4zm0 4h4v-4h-4v4z'/%3E%3C/g%3E%3C/svg%3E")` }} />
-                            <div className="text-[#C9A84C] opacity-70 relative z-10">
+                          <div style={{
+                            width: '100%', height: '100%',
+                            background: `linear-gradient(135deg, rgba(201,168,76,0.12) 0%, #0D0D0D 100%)`,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          }}>
+                            <span style={{ color: ICON_COLORS[idx % ICON_COLORS.length], opacity: 0.7, transform: 'scale(1.5)' }}>
                               {iconMap[service.icon] || <Star size={40} />}
-                            </div>
+                            </span>
                           </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/20 to-transparent" />
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #161616 0%, transparent 60%)' }} />
                         {/* Icon badge */}
-                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#C9A84C]/40 flex items-center justify-center text-[#C9A84C]">
-                          <span className="scale-75">{iconMap[service.icon] || <Star size={18} />}</span>
+                        <div style={{
+                          position: 'absolute', top: '0.75rem', right: '0.75rem',
+                          width: '36px', height: '36px', borderRadius: '50%',
+                          background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(201,168,76,0.4)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#C9A84C',
+                        }}>
+                          <span style={{ transform: 'scale(0.65)' }}>{iconMap[service.icon] || <Star size={16} />}</span>
                         </div>
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 p-6 flex flex-col">
-                        <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors">
+                      <div style={{ padding: '1.25rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <h3 className="font-display" style={{ color: '#F0EBE1', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.625rem' }}>
                           {service.title}
                         </h3>
-                        <p className="text-white/60 text-sm leading-relaxed flex-1 line-clamp-3">
+                        <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '0.875rem', lineHeight: 1.6, flex: 1, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
                           {service.short_description}
                         </p>
-                        <div className="mt-5 flex items-center justify-between pt-4 border-t border-white/10">
-                          <span className="text-[#C9A84C] text-sm font-semibold">
-                            {service.price_info}
-                          </span>
-                          <span className="flex items-center gap-1 text-[#C9A84C] text-sm font-medium group-hover:gap-2 transition-all">
-                            Book Now <ArrowRight size={14} />
+                        <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <span style={{ color: '#C9A84C', fontSize: '0.875rem', fontWeight: 600 }}>{service.price_info}</span>
+                          <span style={{ color: '#C9A84C', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            Book <ArrowRight size={13} />
                           </span>
                         </div>
                       </div>
@@ -142,23 +146,30 @@ export default function ServicesCarousel() {
             </div>
           </div>
 
-          {/* Navigation */}
-          <button
-            onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#1A1A1A] border border-[#C9A84C]/40 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all shadow-xl z-10"
-          >
+          {/* Prev / Next */}
+          <button onClick={scrollPrev} style={{
+            position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
+            width: '40px', height: '40px', borderRadius: '50%',
+            background: '#1A1A1A', border: '1px solid rgba(201,168,76,0.35)',
+            color: '#C9A84C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', transition: 'all 0.2s', zIndex: 10,
+          }}>
             <ChevronLeft size={18} />
           </button>
-          <button
-            onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#1A1A1A] border border-[#C9A84C]/40 flex items-center justify-center text-[#C9A84C] hover:bg-[#C9A84C] hover:text-black transition-all shadow-xl z-10"
-          >
+          <button onClick={scrollNext} style={{
+            position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)',
+            width: '40px', height: '40px', borderRadius: '50%',
+            background: '#1A1A1A', border: '1px solid rgba(201,168,76,0.35)',
+            color: '#C9A84C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', transition: 'all 0.2s', zIndex: 10,
+          }}>
             <ChevronRight size={18} />
           </button>
         </div>
 
-        <div className="text-center mt-12">
-          <Link href="/services" className="btn-gold px-8 py-3 rounded-full text-sm font-semibold tracking-wide uppercase inline-block">
+        {/* CTA */}
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <Link href="/services" className="btn-gold" style={{ padding: '0.75rem 2rem', borderRadius: '9999px' }}>
             View All Services
           </Link>
         </div>

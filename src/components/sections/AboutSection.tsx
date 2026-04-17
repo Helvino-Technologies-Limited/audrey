@@ -6,7 +6,7 @@ import { CheckCircle2, Trophy, Star, Users } from 'lucide-react';
 export default function AboutSection() {
   const [content, setContent] = useState({
     title: 'Experience Luxury in the Heart of Kenya',
-    body: 'Nestled in the serene Siaya County countryside, The Audrey Golf Resort offers an unparalleled escape from the ordinary. Our resort combines world-class hospitality with the natural beauty of Kenya, creating experiences that will leave you breathless.',
+    body: 'Nestled in the serene Siaya County countryside, The Audrey Golf Resort offers an unparalleled escape from the ordinary. Our resort combines world-class hospitality with the natural beauty of Kenya, creating experiences that leave you breathless.',
   });
 
   useEffect(() => {
@@ -33,109 +33,111 @@ export default function AboutSection() {
   ];
 
   const stats = [
-    { icon: <Trophy size={20} />, value: '18', label: 'Hole Golf Course' },
-    { icon: <Users size={20} />, value: '200+', label: 'Happy Guests' },
-    { icon: <Star size={20} />, value: '4.8★', label: 'Guest Rating' },
+    { icon: <Trophy size={22} />, value: '18', label: 'Hole Golf Course' },
+    { icon: <Users size={22} />, value: '200+', label: 'Happy Guests' },
+    { icon: <Star size={22} />, value: '4.8★', label: 'Guest Rating' },
   ];
 
   return (
-    <section className="py-24 bg-[#111111] relative overflow-hidden">
-      {/* Background lines */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent" />
+    <section style={{ padding: '5rem 0', background: '#111111', position: 'relative' }}>
+      {/* Top rule */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(to right, transparent, rgba(201,168,76,0.25), transparent)' }} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left: visual */}
-          <div className="relative order-2 lg:order-1">
-            {/* Main decorative card */}
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-[#1a0f00] to-[#0D0D0D] border border-[#C9A84C]/20">
-              {/* Inner decoration */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                <div className="text-[#C9A84C] font-display font-bold text-[120px] leading-none opacity-[0.06] select-none">A</div>
-              </div>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}>
 
-              {/* Grid pattern overlay */}
-              <div className="absolute inset-0 opacity-[0.06]"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A84C' stroke-width='0.5'%3E%3Crect x='15' y='15' width='30' height='30'/%3E%3Cline x1='30' y1='0' x2='30' y2='60'/%3E%3Cline x1='0' y1='30' x2='60' y2='30'/%3E%3C/g%3E%3C/svg%3E")`,
-                  backgroundSize: '60px 60px',
-                }}
-              />
-
+          {/* Left — decorative visual */}
+          <div style={{ position: 'relative' }}>
+            <div style={{
+              borderRadius: '1.25rem',
+              aspectRatio: '4/3',
+              background: 'linear-gradient(135deg, #1a0e00 0%, #111111 100%)',
+              border: '1px solid rgba(201,168,76,0.18)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
               {/* Corner accents */}
-              <div className="absolute top-5 left-5 w-12 h-12 border-l-2 border-t-2 border-[#C9A84C]/50" />
-              <div className="absolute top-5 right-5 w-12 h-12 border-r-2 border-t-2 border-[#C9A84C]/50" />
-              <div className="absolute bottom-5 left-5 w-12 h-12 border-l-2 border-b-2 border-[#C9A84C]/50" />
-              <div className="absolute bottom-5 right-5 w-12 h-12 border-r-2 border-b-2 border-[#C9A84C]/50" />
-
+              {[['top','left'],['top','right'],['bottom','left'],['bottom','right']].map(([v, h]) => (
+                <div key={`${v}${h}`} style={{
+                  position: 'absolute',
+                  [v]: '1.25rem', [h]: '1.25rem',
+                  width: '2.5rem', height: '2.5rem',
+                  borderTop: v === 'top' ? '2px solid rgba(201,168,76,0.45)' : undefined,
+                  borderBottom: v === 'bottom' ? '2px solid rgba(201,168,76,0.45)' : undefined,
+                  borderLeft: h === 'left' ? '2px solid rgba(201,168,76,0.45)' : undefined,
+                  borderRight: h === 'right' ? '2px solid rgba(201,168,76,0.45)' : undefined,
+                }} />
+              ))}
               {/* Center content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-center">
-                  <p className="text-[#C9A84C] font-display font-bold text-4xl mb-2">The Audrey</p>
-                  <p className="text-white/40 text-sm tracking-[0.4em] uppercase">Golf Resort</p>
-                  <div className="flex items-center justify-center gap-2 mt-4">
-                    <div className="h-px w-8 bg-[#C9A84C]/40" />
-                    <div className="w-1 h-1 rounded-full bg-[#C9A84C]/60" />
-                    <div className="h-px w-8 bg-[#C9A84C]/40" />
-                  </div>
-                  <p className="text-white/30 text-xs tracking-[0.3em] uppercase mt-4">Siaya County, Kenya</p>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                <p className="font-display" style={{ color: '#C9A84C', fontSize: '2.5rem', fontWeight: 700 }}>The Audrey</p>
+                <p style={{ color: 'rgba(240,235,225,0.40)', fontSize: '0.75rem', letterSpacing: '0.4em', textTransform: 'uppercase' }}>Golf Resort</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  <div style={{ width: '32px', height: '1px', background: 'rgba(201,168,76,0.40)' }} />
+                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'rgba(201,168,76,0.60)' }} />
+                  <div style={{ width: '32px', height: '1px', background: 'rgba(201,168,76,0.40)' }} />
                 </div>
+                <p style={{ color: 'rgba(240,235,225,0.30)', fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginTop: '0.5rem' }}>Siaya County, Kenya</p>
               </div>
             </div>
 
-            {/* Stat cards */}
-            <div className="absolute -bottom-6 -right-4 bg-[#C9A84C] rounded-2xl p-5 shadow-2xl shadow-[#C9A84C]/20">
-              <p className="text-black font-bold text-3xl font-display">4.8★</p>
-              <p className="text-black/70 text-xs font-semibold uppercase tracking-wide mt-0.5">Guest Rating</p>
+            {/* Floating stat badges */}
+            <div style={{
+              position: 'absolute', bottom: '-1.25rem', right: '-0.75rem',
+              background: '#C9A84C', borderRadius: '1rem', padding: '0.875rem 1.25rem',
+              boxShadow: '0 8px 32px rgba(201,168,76,0.25)',
+            }}>
+              <p className="font-display" style={{ color: '#0D0D0D', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1 }}>4.8★</p>
+              <p style={{ color: 'rgba(13,13,13,0.65)', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '0.25rem' }}>Guest Rating</p>
             </div>
-            <div className="absolute -top-6 -left-4 bg-[#1A1A1A] border border-[#C9A84C]/30 rounded-2xl p-5 shadow-2xl">
-              <p className="text-[#C9A84C] font-bold text-3xl font-display">200+</p>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-wide mt-0.5">Happy Guests</p>
+            <div style={{
+              position: 'absolute', top: '-1.25rem', left: '-0.75rem',
+              background: '#1A1A1A', border: '1px solid rgba(201,168,76,0.30)',
+              borderRadius: '1rem', padding: '0.875rem 1.25rem',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+            }}>
+              <p className="font-display" style={{ color: '#C9A84C', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1 }}>200+</p>
+              <p style={{ color: 'rgba(240,235,225,0.50)', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '0.25rem' }}>Happy Guests</p>
             </div>
           </div>
 
-          {/* Right: content */}
-          <div className="order-1 lg:order-2">
-            <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">About Us</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+          {/* Right — content */}
+          <div>
+            <p className="section-label">About Us</p>
+            <h2 className="font-display" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem', lineHeight: 1.2 }}>
               {content.title}
             </h2>
-            <div className="divider-gold mb-6" />
-            <p className="text-white/65 text-base leading-relaxed mb-8">
+            <div className="divider-gold" style={{ marginBottom: '1.5rem' }} />
+            <p style={{ color: 'rgba(240,235,225,0.65)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '2rem' }}>
               {content.body}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            {/* Highlights grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem 1.5rem', marginBottom: '2rem' }}>
               {highlights.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <CheckCircle2 size={16} className="text-[#C9A84C] shrink-0 mt-0.5" />
-                  <span className="text-white/65 text-sm">{item}</span>
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                  <CheckCircle2 size={15} style={{ color: '#C9A84C', flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ color: 'rgba(240,235,225,0.65)', fontSize: '0.875rem' }}>{item}</span>
                 </div>
               ))}
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-3 gap-4 mb-8 p-4 glass-card rounded-2xl">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '2rem' }}>
               {stats.map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="flex items-center justify-center text-[#C9A84C] mb-1">{stat.icon}</div>
-                  <p className="text-white font-bold text-xl font-display">{stat.value}</p>
-                  <p className="text-white/40 text-xs">{stat.label}</p>
+                <div key={i} className="card" style={{ textAlign: 'center', padding: '1rem 0.5rem' }}>
+                  <div style={{ color: '#C9A84C', display: 'flex', justifyContent: 'center', marginBottom: '0.375rem' }}>{stat.icon}</div>
+                  <p className="font-display" style={{ color: '#F0EBE1', fontWeight: 700, fontSize: '1.375rem' }}>{stat.value}</p>
+                  <p style={{ color: 'rgba(240,235,225,0.40)', fontSize: '0.75rem', marginTop: '0.2rem' }}>{stat.label}</p>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="/services"
-                className="btn-gold px-6 py-3 rounded-full text-sm font-semibold tracking-wide uppercase text-center"
-              >
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <a href="/services" className="btn-gold" style={{ padding: '0.75rem 1.75rem', borderRadius: '9999px' }}>
                 Explore Services
               </a>
-              <a
-                href="/contact"
-                className="px-6 py-3 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-semibold tracking-wide uppercase text-center hover:bg-[#C9A84C]/10 transition-all"
-              >
+              <a href="/contact" className="btn-outline" style={{ padding: '0.75rem 1.75rem', borderRadius: '9999px' }}>
                 Contact Us
               </a>
             </div>

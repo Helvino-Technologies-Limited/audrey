@@ -18,100 +18,113 @@ interface Service {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  bed: <BedDouble size={32} />,
-  utensils: <UtensilsCrossed size={32} />,
-  trophy: <Trophy size={32} />,
-  waves: <Waves size={32} />,
-  presentation: <Monitor size={32} />,
-  music: <Music2 size={32} />,
-  star: <Star size={32} />,
+  bed: <BedDouble size={36} />,
+  utensils: <UtensilsCrossed size={36} />,
+  trophy: <Trophy size={36} />,
+  waves: <Waves size={36} />,
+  presentation: <Monitor size={36} />,
+  music: <Music2 size={36} />,
+  star: <Star size={36} />,
 };
 
+const STATIC_SERVICES: Service[] = [
+  { id: 1, slug: 'accommodation', title: 'Accommodation', icon: 'bed', short_description: 'Luxurious furnished rooms with scenic countryside views and world-class amenities.', price_info: 'From KES 5,000/night', image_url: null, is_active: true, features: [] },
+  { id: 2, slug: 'restaurant', title: 'Fine Dining', icon: 'utensils', short_description: 'Authentic Kenyan flavours crafted from farm-fresh ingredients with timeless elegance.', price_info: 'From KES 500/dish', image_url: null, is_active: true, features: [] },
+  { id: 3, slug: 'golf', title: 'Golf Course', icon: 'trophy', short_description: 'Championship 18-hole golf on our meticulously maintained scenic greens.', price_info: 'From KES 2,000/round', image_url: null, is_active: true, features: [] },
+  { id: 4, slug: 'swimming-pool', title: 'Swimming Pool', icon: 'waves', short_description: 'Olympic-size pool with lessons, aqua aerobics and poolside bar service.', price_info: 'From KES 500/session', image_url: null, is_active: true, features: [] },
+  { id: 5, slug: 'conference', title: 'Conference Hall', icon: 'presentation', short_description: '200-delegate state-of-the-art conference hall with full AV support.', price_info: 'From KES 50,000/day', image_url: null, is_active: true, features: [] },
+  { id: 6, slug: 'bar-entertainment', title: 'Bar & Entertainment', icon: 'music', short_description: 'Live music every Friday & Saturday, craft cocktails and a vibrant atmosphere.', price_info: 'From KES 200/drink', image_url: null, is_active: true, features: [] },
+  { id: 7, slug: 'events', title: 'Events & Weddings', icon: 'star', short_description: 'Unforgettable weddings, corporate functions and private celebrations.', price_info: 'Contact us for pricing', image_url: null, is_active: true, features: [] },
+];
+
 export default function ServicesPage() {
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<Service[]>(STATIC_SERVICES);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/services')
       .then(r => r.json())
       .then((data: Service[]) => {
-        setServices(data.filter(s => s.is_active));
+        const active = data.filter(s => s.is_active);
+        if (active.length > 0) setServices(active);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D]">
-      {/* Page Header */}
-      <div className="relative pt-32 pb-20 bg-gradient-to-b from-[#1A1200]/50 to-[#0D0D0D]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Explore</p>
-          <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-5">
-            Our Services
-          </h1>
-          <div className="divider-gold mx-auto mb-5" />
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+    <div style={{ minHeight: '100vh', background: '#0D0D0D' }}>
+      {/* Page header */}
+      <div style={{ paddingTop: '8rem', paddingBottom: '4rem', background: 'linear-gradient(to bottom, rgba(26,18,0,0.55) 0%, transparent 100%)', textAlign: 'center' }}>
+        <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '0 1.5rem' }}>
+          <p className="section-label">Explore</p>
+          <h1 className="font-display" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.75rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>Our Services</h1>
+          <div className="divider-gold" style={{ margin: '0 auto 1.5rem' }} />
+          <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '1.0625rem', lineHeight: 1.7 }}>
             From championship golf to world-class dining and luxury accommodation — everything you need for an unforgettable stay
           </p>
         </div>
       </div>
 
-      {/* Services Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      {/* Grid */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem 5rem' }}>
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="glass-card rounded-2xl h-80 shimmer" />
-            ))}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            {[1,2,3,4,5,6].map(i => <div key={i} className="card shimmer" style={{ height: '340px' }} />)}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <Link key={service.id} href={`/services/${service.slug}`}>
-                <div className="glass-card rounded-2xl overflow-hidden hover:border-[#C9A84C]/40 transition-all duration-300 group h-full flex flex-col cursor-pointer">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            {services.map(service => (
+              <Link key={service.id} href={`/services/${service.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <div className="card" style={{
+                  display: 'flex', flexDirection: 'column', overflow: 'hidden',
+                  height: '100%', cursor: 'pointer', transition: 'border-color 0.25s, transform 0.25s',
+                }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,168,76,0.45)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
+                >
                   {/* Image */}
-                  <div className="relative h-52 bg-gradient-to-br from-[#C9A84C]/10 to-[#0D0D0D] overflow-hidden">
+                  <div style={{ position: 'relative', height: '200px', background: 'linear-gradient(135deg, rgba(201,168,76,0.12) 0%, #111111 100%)', overflow: 'hidden' }}>
                     {service.image_url ? (
-                      <Image
-                        src={service.image_url}
-                        alt={service.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <Image src={service.image_url} alt={service.title} fill style={{ objectFit: 'cover' }} />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[#C9A84C]/40">
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(201,168,76,0.40)' }}>
                         {iconMap[service.icon] || <Star size={48} />}
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent" />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #161616 0%, transparent 60%)' }} />
                   </div>
 
                   {/* Content */}
-                  <div className="p-7 flex-1 flex flex-col">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 flex items-center justify-center text-[#C9A84C]">
-                        <span className="scale-75">{iconMap[service.icon] || <Star size={18} />}</span>
+                  <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.875rem' }}>
+                      <div style={{
+                        width: '38px', height: '38px', borderRadius: '50%',
+                        background: 'rgba(201,168,76,0.10)', border: '1px solid rgba(201,168,76,0.20)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        color: '#C9A84C', flexShrink: 0,
+                      }}>
+                        <span style={{ transform: 'scale(0.65)' }}>{iconMap[service.icon]}</span>
                       </div>
-                      <h3 className="font-display text-xl font-bold text-white group-hover:text-[#C9A84C] transition-colors">
+                      <h3 className="font-display" style={{ color: '#F0EBE1', fontSize: '1.1rem', fontWeight: 700 }}>
                         {service.title}
                       </h3>
                     </div>
-                    <p className="text-white/60 text-sm leading-relaxed flex-1 mb-5">
+                    <p style={{ color: 'rgba(240,235,225,0.60)', fontSize: '0.875rem', lineHeight: 1.65, flex: 1, marginBottom: '1.25rem' }}>
                       {service.short_description}
                     </p>
 
                     {service.features && service.features.slice(0, 3).map((f, i) => (
-                      <div key={i} className="flex items-center gap-2 mb-1.5">
-                        <div className="w-1 h-1 rounded-full bg-[#C9A84C]" />
-                        <span className="text-white/50 text-xs">{f}</span>
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+                        <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#C9A84C', flexShrink: 0 }} />
+                        <span style={{ color: 'rgba(240,235,225,0.50)', fontSize: '0.8rem' }}>{f}</span>
                       </div>
                     ))}
 
-                    <div className="flex items-center justify-between mt-5 pt-5 border-t border-white/10">
-                      <span className="text-[#C9A84C] text-sm font-semibold">{service.price_info}</span>
-                      <span className="flex items-center gap-1 text-[#C9A84C] text-sm font-medium group-hover:gap-2 transition-all">
-                        Book Now <ArrowRight size={14} />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                      <span style={{ color: '#C9A84C', fontSize: '0.875rem', fontWeight: 600 }}>{service.price_info}</span>
+                      <span style={{ color: '#C9A84C', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        Book Now <ArrowRight size={13} />
                       </span>
                     </div>
                   </div>

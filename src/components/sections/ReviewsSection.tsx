@@ -14,33 +14,9 @@ interface Review {
 }
 
 const STATIC_REVIEWS: Review[] = [
-  {
-    id: -1,
-    customer_name: 'James Odhiambo',
-    rating: 5,
-    title: 'Absolutely World-Class',
-    body: 'The Audrey Golf Resort exceeded every expectation. The golf course is immaculate, the food is extraordinary, and the staff made us feel like royalty throughout our stay.',
-    service: 'golf',
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: -2,
-    customer_name: 'Amina Wanjiku',
-    rating: 5,
-    title: 'Perfect Wedding Venue',
-    body: 'We held our wedding reception here and it was magical. The events team handled every detail perfectly. The scenic views of Siaya County made for breathtaking photos.',
-    service: 'events',
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: -3,
-    customer_name: 'David Kamau',
-    rating: 5,
-    title: 'Best Fine Dining in the Region',
-    body: 'The restaurant is exceptional — farm-fresh ingredients prepared with incredible skill. The nyama choma and the cocktails at the bar are reason alone to make the trip.',
-    service: 'restaurant',
-    created_at: new Date().toISOString(),
-  },
+  { id: -1, customer_name: 'James Odhiambo', rating: 5, title: 'Absolutely World-Class', body: 'The Audrey Golf Resort exceeded every expectation. The golf course is immaculate, the food is extraordinary, and the staff made us feel like royalty throughout our stay.', service: 'golf', created_at: new Date().toISOString() },
+  { id: -2, customer_name: 'Amina Wanjiku', rating: 5, title: 'Perfect Wedding Venue', body: 'We held our wedding reception here and it was magical. The events team handled every detail perfectly. The scenic views of Siaya County made for breathtaking photos.', service: 'events', created_at: new Date().toISOString() },
+  { id: -3, customer_name: 'David Kamau', rating: 5, title: 'Best Fine Dining in the Region', body: 'The restaurant is exceptional — farm-fresh ingredients prepared with incredible skill. The nyama choma and the cocktails at the bar are reason alone to make the trip.', service: 'restaurant', created_at: new Date().toISOString() },
 ];
 
 export default function ReviewsSection() {
@@ -49,56 +25,58 @@ export default function ReviewsSection() {
   useEffect(() => {
     fetch('/api/reviews?featured=true')
       .then(r => r.json())
-      .then((data: Review[]) => {
-        if (Array.isArray(data) && data.length > 0) setReviews(data);
-      })
+      .then((data: Review[]) => { if (Array.isArray(data) && data.length > 0) setReviews(data); })
       .catch(() => {});
   }, []);
 
   return (
-    <section className="py-24 bg-[#111111] relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent" />
+    <section style={{ padding: '5rem 0', background: '#0D0D0D', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(to right, transparent, rgba(201,168,76,0.25), transparent)' }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(to right, transparent, rgba(201,168,76,0.25), transparent)' }} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Testimonials</p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-5">
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+          <p className="section-label">Testimonials</p>
+          <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem' }}>
             What Our Guests Say
           </h2>
-          <div className="divider-gold mx-auto mb-5" />
-          <div className="flex items-center justify-center gap-1 mb-2">
-            {[1,2,3,4,5].map(i => <Star key={i} size={18} className="fill-[#C9A84C] text-[#C9A84C]" />)}
+          <div className="divider-gold" style={{ margin: '0 auto 1.25rem' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '0.5rem' }}>
+            {[1,2,3,4,5].map(i => <Star key={i} size={18} style={{ fill: '#C9A84C', color: '#C9A84C' }} />)}
           </div>
-          <p className="text-white/50 text-sm">4.8 average rating from our guests</p>
+          <p style={{ color: 'rgba(240,235,225,0.45)', fontSize: '0.875rem' }}>4.8 average rating from our guests</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {reviews.slice(0, 3).map((review) => (
-            <div key={review.id} className="glass-card rounded-2xl p-8 hover:border-[#C9A84C]/30 transition-all flex flex-col">
-              <Quote size={32} className="text-[#C9A84C]/40 mb-5" />
-              <div className="flex gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <Star
-                    key={i}
-                    size={14}
-                    className={i <= review.rating ? 'fill-[#C9A84C] text-[#C9A84C]' : 'text-white/20'}
-                  />
+        {/* Review cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+          {reviews.slice(0, 3).map(review => (
+            <div key={review.id} className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', transition: 'border-color 0.2s' }}>
+              <Quote size={28} style={{ color: 'rgba(201,168,76,0.35)', marginBottom: '1.25rem' }} />
+              <div style={{ display: 'flex', gap: '3px', marginBottom: '1rem' }}>
+                {[1,2,3,4,5].map(i => (
+                  <Star key={i} size={13} style={{ fill: i <= review.rating ? '#C9A84C' : 'transparent', color: i <= review.rating ? '#C9A84C' : 'rgba(255,255,255,0.2)' }} />
                 ))}
               </div>
               {review.title && (
-                <h4 className="text-white font-semibold mb-3 font-display">{review.title}</h4>
+                <h4 className="font-display" style={{ color: '#F0EBE1', fontWeight: 600, marginBottom: '0.75rem', fontSize: '1rem' }}>{review.title}</h4>
               )}
-              <p className="text-white/65 text-sm leading-relaxed flex-1 mb-6 line-clamp-3">{review.body}</p>
-              <div className="flex items-center justify-between border-t border-white/10 pt-4">
+              <p style={{ color: 'rgba(240,235,225,0.62)', fontSize: '0.875rem', lineHeight: 1.65, flex: 1, marginBottom: '1.5rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical' }}>
+                {review.body}
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1rem' }}>
                 <div>
-                  <p className="text-white font-medium text-sm">{review.customer_name}</p>
+                  <p style={{ color: '#F0EBE1', fontWeight: 600, fontSize: '0.875rem' }}>{review.customer_name}</p>
                   {review.service && (
-                    <p className="text-[#C9A84C] text-xs capitalize mt-0.5">{review.service}</p>
+                    <p style={{ color: '#C9A84C', fontSize: '0.75rem', textTransform: 'capitalize', marginTop: '2px' }}>{review.service}</p>
                   )}
                 </div>
-                <div className="w-8 h-8 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] text-sm font-bold">
+                <div style={{
+                  width: '36px', height: '36px', borderRadius: '50%',
+                  background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.30)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#C9A84C', fontWeight: 700, fontSize: '0.875rem',
+                }}>
                   {review.customer_name.charAt(0)}
                 </div>
               </div>

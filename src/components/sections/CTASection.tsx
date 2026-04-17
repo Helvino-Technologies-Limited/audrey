@@ -24,40 +24,41 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section className="py-24 bg-[#111111] relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C9A84C]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#C9A84C]/5 rounded-full blur-2xl" />
-      </div>
+    <section style={{ padding: '5rem 0', background: '#111111', position: 'relative', overflow: 'hidden' }}>
+      {/* Subtle glow */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '200px', background: 'radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-      <div className="relative max-w-4xl mx-auto px-4 text-center">
-        <div className="border border-[#C9A84C]/20 rounded-3xl p-12 md:p-16 glass-card">
-          <p className="text-[#C9A84C] text-sm tracking-[0.3em] uppercase mb-4">Book Now</p>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-5 leading-tight">
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
+        <div className="card" style={{
+          borderColor: 'rgba(201,168,76,0.22)',
+          borderRadius: '1.5rem',
+          padding: 'clamp(2.5rem, 5vw, 4rem)',
+          textAlign: 'center',
+          maxWidth: '56rem',
+          margin: '0 auto',
+        }}>
+          <p className="section-label">Book Now</p>
+          <h2 className="font-display" style={{ fontSize: 'clamp(1.75rem, 5vw, 3rem)', fontWeight: 700, color: '#F0EBE1', marginBottom: '1.25rem', lineHeight: 1.2 }}>
             {content.title}
           </h2>
-          <div className="divider-gold mx-auto mb-5" />
-          <p className="text-white/65 text-base md:text-lg mb-10 leading-relaxed">
+          <div className="divider-gold" style={{ margin: '0 auto 1.25rem' }} />
+          <p style={{ color: 'rgba(240,235,225,0.62)', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem', maxWidth: '36rem', marginInline: 'auto' }}>
             {content.subtitle}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/services/accommodation"
-              className="btn-gold px-8 py-4 rounded-full text-sm font-semibold tracking-wide uppercase"
-            >
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.875rem', justifyContent: 'center' }}>
+            <Link href="/services/accommodation" className="btn-gold" style={{ padding: '0.875rem 1.75rem', borderRadius: '9999px' }}>
               Book Accommodation
             </Link>
-            <Link
-              href="/menu"
-              className="px-8 py-4 rounded-full border border-[#C9A84C]/50 text-[#C9A84C] text-sm font-semibold tracking-wide uppercase hover:bg-[#C9A84C]/10 transition-all"
-            >
+            <Link href="/menu" className="btn-outline" style={{ padding: '0.875rem 1.75rem', borderRadius: '9999px' }}>
               Order Food
             </Link>
-            <Link
-              href="/contact"
-              className="px-8 py-4 rounded-full border border-white/20 text-white/70 text-sm font-semibold tracking-wide uppercase hover:bg-white/5 transition-all"
-            >
+            <Link href="/contact" style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              padding: '0.875rem 1.75rem', borderRadius: '9999px',
+              border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(240,235,225,0.65)',
+              fontSize: '0.8125rem', fontWeight: 600, letterSpacing: '0.06em',
+              textTransform: 'uppercase', textDecoration: 'none', transition: 'all 0.2s',
+            }}>
               Enquire About Events
             </Link>
           </div>

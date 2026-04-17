@@ -4,19 +4,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Phone } from 'lucide-react';
 
-interface HeroContent {
-  title: string;
-  subtitle: string;
-}
-
-interface Settings {
-  hero_video_url?: string;
-}
-
 export default function HeroSection() {
-  const [content, setContent] = useState<HeroContent>({
+  const [content, setContent] = useState({
     title: 'Welcome to The Audrey Golf Resort',
-    subtitle: 'An exclusive golf resort in the Kenyan countryside, serving authentic flavours with timeless elegance',
+    subtitle: 'An exclusive golf resort in the Kenyan countryside — authentic flavours, world-class golf, timeless elegance.',
   });
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
@@ -24,7 +15,7 @@ export default function HeroSection() {
     Promise.all([
       fetch('/api/page-content?page=home').then(r => r.json()),
       fetch('/api/settings').then(r => r.json()),
-    ]).then(([pageContent, settings]: [Record<string, Record<string, string>>, Settings]) => {
+    ]).then(([pageContent, settings]) => {
       if (pageContent?.hero) {
         setContent({
           title: pageContent.hero.title || content.title,
@@ -36,106 +27,108 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+    <section
+      style={{
+        position: 'relative',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}
+    >
       {/* Background */}
       {videoUrl ? (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
+        <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
           <source src={videoUrl} type="video/mp4" />
         </video>
       ) : (
-        <div className="absolute inset-0 bg-[#0D0D0D]">
-          {/* Rich gradient layers */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0f00] via-[#0D0D0D] to-[#000d0a]" />
-          {/* Gold glow top-left */}
-          <div className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-[#C9A84C]/8 rounded-full blur-3xl" />
-          {/* Gold glow bottom-right */}
-          <div className="absolute -bottom-20 -right-20 w-[400px] h-[400px] bg-[#C9A84C]/6 rounded-full blur-3xl" />
-          {/* Center subtle glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-[#C9A84C]/4 rounded-full blur-3xl" />
-          {/* Geometric pattern */}
-          <div className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A84C' stroke-width='0.5'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='10' y='10' width='60' height='60'/%3E%3Cline x1='40' y1='0' x2='40' y2='80'/%3E%3Cline x1='0' y1='40' x2='80' y2='40'/%3E%3C/g%3E%3C/svg%3E")`,
-              backgroundSize: '80px 80px',
-            }}
-          />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #1a0e00 0%, #0D0D0D 50%, #000a05 100%)' }}>
+          <div style={{ position: 'absolute', top: '-80px', left: '-80px', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%)' }} />
+          <div style={{ position: 'absolute', bottom: '-60px', right: '-60px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)' }} />
         </div>
       )}
 
       {/* Overlay */}
-      <div className="absolute inset-0 video-overlay" />
-
-      {/* Side accents */}
-      <div className="absolute left-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4">
-        <div className="w-px h-20 bg-gradient-to-b from-transparent to-[#C9A84C]/40" />
-        <div className="writing-mode-vertical text-[#C9A84C]/40 text-xs tracking-[0.3em] uppercase" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-          Siaya County, Kenya
-        </div>
-        <div className="w-px h-20 bg-gradient-to-t from-transparent to-[#C9A84C]/40" />
-      </div>
+      <div className="video-overlay" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        {/* Location tag */}
-        <div className="inline-flex items-center gap-2 bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-full px-5 py-2 mb-8 fade-in-up">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" />
-          <p className="text-[#C9A84C] text-xs tracking-[0.25em] uppercase font-medium">Siaya County, Kenya</p>
+      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 1.5rem', maxWidth: '56rem', margin: '0 auto', width: '100%' }}>
+        {/* Location badge */}
+        <div className="fade-in-up" style={{
+          display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+          background: 'rgba(201,168,76,0.10)', border: '1px solid rgba(201,168,76,0.30)',
+          borderRadius: '9999px', padding: '0.4rem 1.25rem', marginBottom: '2rem',
+        }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C9A84C', display: 'inline-block' }} />
+          <span style={{ color: '#C9A84C', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 500 }}>
+            Siaya County, Kenya
+          </span>
         </div>
 
         <h1
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight fade-in-up"
-          style={{ animationDelay: '0.2s', textShadow: '0 2px 40px rgba(0,0,0,0.5)' }}
+          className="font-display fade-in-up"
+          style={{
+            fontSize: 'clamp(2.4rem, 7vw, 5rem)',
+            fontWeight: 700,
+            color: '#F0EBE1',
+            lineHeight: 1.15,
+            marginBottom: '1.5rem',
+            textShadow: '0 2px 40px rgba(0,0,0,0.6)',
+            animationDelay: '0.15s',
+          }}
         >
           {content.title}
         </h1>
 
-        <div className="flex items-center justify-center gap-4 mb-6 fade-in-up" style={{ animationDelay: '0.35s' }}>
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#C9A84C]" />
-          <div className="w-2 h-2 rounded-full bg-[#C9A84C]" />
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#C9A84C]" />
+        {/* Gold line divider */}
+        <div className="fade-in-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.5rem', animationDelay: '0.3s' }}>
+          <div style={{ width: '60px', height: '1px', background: 'linear-gradient(to right, transparent, #C9A84C)' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#C9A84C' }} />
+          <div style={{ width: '60px', height: '1px', background: 'linear-gradient(to left, transparent, #C9A84C)' }} />
         </div>
 
         <p
-          className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed fade-in-up"
-          style={{ animationDelay: '0.4s' }}
+          className="fade-in-up"
+          style={{
+            color: 'rgba(240,235,225,0.72)',
+            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+            maxWidth: '36rem',
+            margin: '0 auto 2.5rem',
+            lineHeight: 1.7,
+            animationDelay: '0.35s',
+          }}
         >
           {content.subtitle}
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center fade-in-up" style={{ animationDelay: '0.6s' }}>
-          <Link
-            href="/services"
-            className="btn-gold px-8 py-4 rounded-full text-sm font-semibold tracking-wide uppercase"
-          >
+        {/* Action buttons */}
+        <div className="fade-in-up" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', animationDelay: '0.5s' }}>
+          <Link href="/services" className="btn-gold" style={{ padding: '0.875rem 2rem', borderRadius: '9999px' }}>
             Explore Our Services
           </Link>
           <Link
             href="/menu"
-            className="px-8 py-4 rounded-full border border-[#C9A84C]/50 text-[#C9A84C] text-sm font-semibold tracking-wide uppercase hover:bg-[#C9A84C]/10 transition-all backdrop-blur-sm"
+            className="btn-outline"
+            style={{ padding: '0.875rem 2rem', borderRadius: '9999px', backdropFilter: 'blur(8px)' }}
           >
-            View Menu & Order
+            View Menu &amp; Order
           </Link>
         </div>
 
-        {/* Phone CTA */}
-        <div className="mt-8 fade-in-up" style={{ animationDelay: '0.75s' }}>
-          <a href="tel:+254780306086" className="inline-flex items-center gap-2 text-white/50 hover:text-[#C9A84C] transition-colors text-sm">
+        {/* Phone */}
+        <div className="fade-in-up" style={{ marginTop: '2rem', animationDelay: '0.65s' }}>
+          <a href="tel:+254780306086" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'rgba(240,235,225,0.45)', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s' }}>
             <Phone size={14} />
-            <span>(+254) 780 306086</span>
+            (+254) 780 306086
           </a>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30">
-        <span className="text-xs tracking-[0.2em] uppercase">Scroll</span>
-        <ChevronDown size={20} className="animate-bounce" />
+      <div style={{ position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', color: 'rgba(240,235,225,0.30)' }}>
+        <span style={{ fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Scroll</span>
+        <ChevronDown size={18} className="animate-bounce" />
       </div>
     </section>
   );
