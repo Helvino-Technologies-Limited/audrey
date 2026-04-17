@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Save, Lock, Globe, Phone, Video, Image as ImageIcon, Palette, ExternalLink } from 'lucide-react';
+import { Save, Lock, Globe, Phone, Video, Image as ImageIcon, Palette } from 'lucide-react';
 import FileUpload from '@/components/admin/FileUpload';
 
 interface SiteSettings {
@@ -168,37 +168,22 @@ export default function SettingsPage() {
             />
           </div>
 
-          {/* Hero video — URL input, not file upload */}
+          {/* Hero video — chunked file upload */}
           <div>
             <label style={{ color: 'rgba(240,235,225,0.55)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <Video size={12} style={{ color: '#C9A84C' }} />
-              Hero Background Video URL
+              Hero Background Video
             </label>
-            <input
-              {...regSettings('hero_video_url')}
-              className={inputCls}
-              placeholder="https://example.com/video.mp4  or  https://youtube.com/watch?v=..."
+            <input {...regSettings('hero_video_url')} type="hidden" />
+            <FileUpload
+              mediaType="video"
+              category="hero"
+              currentUrl={watchSettings('hero_video_url')}
+              onUpload={url => setSettingsValue('hero_video_url', url)}
             />
-            <div style={{ marginTop: '0.625rem', padding: '0.875rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: '0.75rem' }}>
-              <p style={{ color: '#C9A84C', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.375rem' }}>Why a URL instead of file upload?</p>
-              <p style={{ color: 'rgba(240,235,225,0.50)', fontSize: '0.75rem', lineHeight: 1.6 }}>
-                Video files are too large to upload directly (server limit). Instead, host your video on one of these free services and paste the link:
-              </p>
-              <ul style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                {[
-                  { label: 'YouTube', hint: 'Upload → Share → Copy link', url: 'https://youtube.com' },
-                  { label: 'Google Drive', hint: 'Upload → Get shareable link (set "Anyone with link can view")', url: 'https://drive.google.com' },
-                  { label: 'Vimeo', hint: 'Upload → Copy video link', url: 'https://vimeo.com' },
-                ].map(s => (
-                  <li key={s.label} style={{ display: 'flex', alignItems: 'baseline', gap: '0.375rem', fontSize: '0.75rem', color: 'rgba(240,235,225,0.50)' }}>
-                    <a href={s.url} target="_blank" rel="noreferrer" style={{ color: '#C9A84C', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '2px', flexShrink: 0 }}>
-                      {s.label} <ExternalLink size={10} />
-                    </a>
-                    — {s.hint}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <p style={{ color: 'rgba(240,235,225,0.28)', fontSize: '0.75rem', marginTop: '0.375rem' }}>
+              Large videos are split and uploaded automatically — any file size works.
+            </p>
           </div>
         </div>
 
