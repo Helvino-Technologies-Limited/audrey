@@ -11,7 +11,13 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ['localhost:3000', '*.vercel.app', '*.render.com'],
+      allowedOrigins: [
+        'localhost:3000',
+        'theaudreyresort.org',
+        'www.theaudreyresort.org',
+        '*.vercel.app',
+        '*.render.com',
+      ],
     },
   },
 };
