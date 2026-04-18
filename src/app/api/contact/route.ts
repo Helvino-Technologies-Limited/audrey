@@ -22,6 +22,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name, email and message are required' }, { status: 400 });
     }
 
+    // Auto-create table on first use in case init was never called
+    await sql`
+      CREATE TABLE IF NOT EXISTS contact_messages (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        phone VARCHAR(50),
+        subject VARCHAR(255),
+        message TEXT NOT NULL,
+        is_read BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `;
+
     const result = await sql`
       INSERT INTO contact_messages (name, email, phone, subject, message)
       VALUES (${name}, ${email}, ${phone || null}, ${subject || 'General Enquiry'}, ${message})
